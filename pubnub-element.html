@@ -52,7 +52,7 @@ Element providing solution to no problem in particular.
         *
         * @attribute uuid
         * @type string
-        * @default randomly generated
+        * @default undefined
         */
       uuid: undefined,
 
@@ -199,3 +199,45 @@ Element providing solution to no problem in particular.
     <content></content>
   </template>
 </polymer-element>
+
+<polymer-element name="core-pubnub-subscribe" attributes="callback channel timetoken connect disconnect error message presence reconnect restore windowing heartbeat state">
+  <script>
+    Polymer('core-pubnub-subscribe', {
+      /*callback: undefined,
+      channel: undefined,
+      timetoken: undefined,
+      connect: undefined,
+      disconnect: undefined,
+      error: undefined,
+      message: undefined,
+      presence: undefined,
+      reconnect: undefined,
+      restore: undefined,
+      windowing: undefined,
+      heartbeat: undefined,
+      state: undefined,*/
+
+      ready: function() {
+        console.log(this.channel);
+        this.pubnub  = this.parentNode.pubnub;
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="core-pubnub-unsubscribe"
+</polymer-element>
+
+
+<polymer-element name="core-pubnub-publish"
+</polymer-element>
+
+<polymer-element name="core-pubnub-history"
+</polymer-element>
+
+<polymer-element name="core-pubnub-here_now"
+</polymer-element>
+
+<polymer-element name="core-pubnub-where_now"
+</polymer-element>
+
