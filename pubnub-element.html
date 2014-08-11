@@ -133,9 +133,20 @@ Element providing solution to no problem in particular.
       
 
       ready: function() {
-        // Ready is a lifecycle callback.
-        // You can do setup work in here.
-        // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
+          var settings = {
+            publish_key: this.publish_key,
+            subscribe_key: this.subscribe_key,
+            auth_key: this.auth_key || undefined,
+            uuid: this.uuid || undefined,
+            cipher_key: this.cipher_key || undefined,
+            noleave: this.noleave || undefined,
+            keepalive: this.keepalive || undefined,
+            secret_key: this.secret_key || undefined,
+            ssl: this.ssl || undefined,
+            windowing: this.windowing || undefined,
+            jsonp: this.jsonp || undefined
+          }
+          this.pubnub = PUBNUB.init(settings);
       },
 
       /**
