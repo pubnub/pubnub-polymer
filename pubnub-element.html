@@ -20,24 +20,117 @@ Element providing solution to no problem in particular.
 
   <script>
 
-    Polymer('seed-element', {
+    Polymer('pubnub-element', {
       /**
-       * The `author` attribute sets an initial author
-       * 
-       * @attribute author
-       * @type string
-       * @default 'Dimitri Glazkov'
-       */
-      author: 'Larry Wu',
+        * The 'publish_key' attribute sets the publish_key to be used for publishing messages to a channel.
+        * REQUIRED
+        *
+        * @attribute publish_key
+        * @type string
+        * @default ''
+        */
+      publish_key: '',
+
+      /**
+        * The 'subscribe_key' attribute sets the subscribe_key to be used for subscribing to a channel.
+        * REQUIRED
+        *
+        * @attribute subscribe_key
+        * @type string
+        * @default ''
+        */
+      subscribe_key: '',
+
+      /**
+        * The 'auth_key' attribute sets the auth_key to be used for determining User-Level Access Manager permissions.
+        * OPTIONAL
+        *
+        * @attribute auth_key 
+        * @type string
+        * @default ''
+        */
+      auth_key: '',
       
       /**
-       * `fancy` is a property that does something fancy.
-       * 
-       * @property fancy
-       * @type bool
+        * The 'uuid' attribute sets the unique user id to be used to identify the client. By default a randomly generated uuid is created by the client.
+        * OPTIONAL
+        *
+        * @attribute uuid
+        * @type string
+        * @default randomly generated
+        */
+      uuid: '',
+
+      /**
+        * The 'cipher_key' attribute sets the cryptographic key to use for message level encryption with AES.
+        * OPTIONAL
+        *
+        * @attribute cipher_key
+        * @type string
+        * @default ''
+        */
+      cipher_key: '',
+
+      /**
+        * The 'noleave' attribute, when set to true, explicitly disables presence leave events.
+        * OPTIONAL
+        *
+        * @attribute noleave
+        * @type boolean
+        * @default false
+        */
+      noleave: false,
+
+      /**
+        * The 'keepalive' attribute sets the interval betwween keepalive pings.
+        * OPTIONAL
+        *
+        * @attribute keepalive 
+        * @type number
+        * @default 60
+        */
+      keepalive: 60,
+
+      /**
+        * The 'secret_key' attribute sets the secret_key used only to sign Access Manager API messages.
+        * OPTIONAL
+        *
+        * @attribute secret_key
+        * @type string
+        * @default ''
+        */
+      secret_key: ''
+
+      /**
+        * The 'ssl' attribute, when set to true, enables transport layer encryption with SSL/TLS. 
+        * OPTIONAL
+        *
+        * @attribute ssl 
+        * @type boolean
+        * @default false
+        */
+      ssl: false,
+
+      /**
+        * The 'windowing' sets the time interval in milliseconds that PubNub will use to optimize message delivery by bundling them into a single compressed payload.
+        * OPTIONAL
+        *
+        * @attribute windowing
+        * @type number
+        * @default 10
+        */
+      windowing: 10,
+
+      /**
+       * The `jsonp` attribute, when set to true, explicitly enforces JSON(P) as the data transport method.
+       * OPTIONAL 
+       *
+       * @attribute jsonp
+       * @type boolean
        * @default false
        */
-      fancy: false,
+      jsonp: false,
+      
 
       ready: function() {
         // Ready is a lifecycle callback.
