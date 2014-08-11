@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="bower_components/polymer/polymer.html"> 
 
 <!--
 Element providing solution to no problem in particular.
@@ -12,11 +12,8 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://polymerlabs.github.io/seed-element
 -->
-<polymer-element name="seed-element" attributes="notitle author">
+<polymer-element name="pubnub-element" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp">
 
-  <template>
-    <content></content>
-  </template>
 
   <script>
 
@@ -99,7 +96,7 @@ Element providing solution to no problem in particular.
         * @type string
         * @default ''
         */
-      secret_key: ''
+      secret_key: '',
 
       /**
         * The 'ssl' attribute, when set to true, enables transport layer encryption with SSL/TLS. 
@@ -146,7 +143,10 @@ Element providing solution to no problem in particular.
             windowing: this.windowing || undefined,
             jsonp: this.jsonp || undefined
           }
-          this.pubnub = PUBNUB.init(settings);
+          console.log(JSON.stringify(settings));
+          // this.pubnub = PUBNUB.init(settings);
+          window.pubnub = PUBNUB.init(settings);
+          console.log("WASSUP");
       },
 
       /**
@@ -184,4 +184,8 @@ Element providing solution to no problem in particular.
 
   </script>
 
+  <template>
+    <span> HELLO </span>
+    <content></content>
+  </template>
 </polymer-element>
