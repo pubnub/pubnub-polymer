@@ -2,17 +2,12 @@
 <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
 
 <!--
-Element providing solution to no problem in particular.
-
-
 @element core-pubnub
 @blurb Element providing encapsulation of the PubNub JS SDK.
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" constructor="corePubNub" hidden attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp">
-
-
+<polymer-element name="core-pubnub" constructor="corePubNub" hidden attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp pubnub">
   <script>
 
     Polymer('core-pubnub', {
@@ -128,6 +123,7 @@ Element providing solution to no problem in particular.
       
 
       ready: function() {
+        console.log("WAT");
           var settings = {
             publish_key: this.publish_key,
             subscribe_key: this.subscribe_key,
@@ -141,15 +137,8 @@ Element providing solution to no problem in particular.
             windowing: this.windowing,
             jsonp: this.jsonp
           }
+          console.log("HI");
           this.pubnub = PUBNUB.init(settings);
-      },
-
-      /**
-       * The pubnub method returns the initialized PubNub object 
-       *
-       */
-      pubnub: function() {
-        return this.pubnub;
       },
 
       /**
@@ -278,12 +267,16 @@ Element providing solution to no problem in particular.
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start">
+<polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start history">
   <script>
     Polymer('core-pubnub-history', {
+      count: 100,
       ready: function() {
         this.pubnub = this.parentNode.pubnub;
+        var me = this;
         var fire = this.fire;
+        console.log(this.pubnub);
+        console.log(this.parentNode);
         this.pubnub.history({
           channel: this.channel,
           count: this.count,
@@ -291,6 +284,10 @@ Element providing solution to no problem in particular.
           reverse: this.reverse,
           start: this.start,
           callback: function(m) {
+            //this.history = m;
+            me.history = "WOLOLOL";
+            console.log("HER STORY");
+            console.log(m);
             fire('callback', m);
           },
           error: function(m) {
@@ -313,3 +310,5 @@ Element providing solution to no problem in particular.
 <polymer-element name="core-pubnub-where_now"
 </polymer-element>
 -->
+
+

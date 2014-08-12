@@ -6,18 +6,22 @@
 
   <script src="bower_components/platform/platform.js"></script>
   <link rel="import" href="pubnub-element.html" publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp>
+  <link rel="import" href="demo-element.html"> 
 
 
 </head>
-<body unresolved>
-
+<body >
+<!--
   <core-pubnub publish_key="demo" subscribe_key="demo" id="core">
     <core-pubnub-subscribe channel="what" id="sub">
     </core-pubnub-subscribe>
-    <!--<core-pubnub-publish channel="what" id="pub" message='{ "first": "Bob", "last": "Dobbs" }'>-->
     <core-pubnub-publish channel="what" id="pub" message='["wat", "DAH" ]'>
     </core-pubnub-publish>
+    <core-pubnub-history channel="what" id="hist">
+    </core-pubnub-history>
   </core-pubnub>
-
+-->
+  <list-data></list-data>
+  
 </body>
 </html>
