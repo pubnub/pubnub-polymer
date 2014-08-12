@@ -10,7 +10,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp">
+<polymer-element name="core-pubnub" constructor="corePubNub" hidden attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp">
 
 
   <script>
@@ -148,16 +148,12 @@ Element providing solution to no problem in particular.
       },
 
       /**
-       * The subscribe method subscribes
+       * The pubnub method returns the initialized PubNub object 
        *
        */
-      subscribe: function(channel) {
-
+      pubnub: function() {
+        return this.pubnub;
       },
-
-      test: function() {
-        console.log("TESTED");
-            },
 
       /**
        * The `sayHello` method will return a greeting.
@@ -194,40 +190,49 @@ Element providing solution to no problem in particular.
 
   </script>
 
-  <template>
-    <span> HELLO </span>
-    <content></content>
-  </template>
 </polymer-element>
 
-<polymer-element name="core-pubnub-subscribe" attributes="callback channel timetoken connect disconnect error message presence reconnect restore windowing heartbeat state">
+<polymer-element name="core-pubnub-subscribe" hidden attributes="channel windowing heartbeat state messages">
   <script>
     Polymer('core-pubnub-subscribe', {
+      channel: [],
       ready: function() {
+        var messages = [];
         this.pubnub  = this.parentNode.pubnub;
         this.pubnub.subscribe({
           channel: this.channel,
           timetoken: this.timetoken,
           connect: function () {
             // Fire Connect Event.
+            console.log("subscribed");
           },
           disconnect: function() {
             // Fire Disconnect Event.
+            console.log("subscribed");
           },
           error: function() {
             // Fire Error Event.
+            console.log("errored");
           },
-          message: function() {
+          message: function(m) {
             // Fire Message Event.
+            console.log("message");
+            console.log(m);
+            messages.push(m);
+            console.log(messages);
           },
-          presence: function() {
+          presence: function(m) {
             // Fire Presence Event.
+            console.log("presence");
+            console.log(m);
           },
           reconnect: function() {
             // Fire Reconnect Event.
+            console.log("reconnect");
           },
           restore: function() {
             // Fire Restore Event.
+            console.log("restored");
           },
           windowing: this.windowing,
           heartbeat: this.heartbeat,
@@ -236,21 +241,34 @@ Element providing solution to no problem in particular.
       },
       unsubscribe: function() {
         // Unsubscribes to the subscribed channel.
+        this.pubnub.unsubscribe({channel: this.channel});
       }
     });
   </script>
 
-  <template>
-    <span> HELLO </span>
-    <content></content>
-  </template>
 </polymer-element>
+
+<polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key">
+  <script>
+    Polymer('core-pubnub-publish', {
+      message: {},
+      ready: function() {
+        console.log(this.message);
+        this.pubnub = this.parentNode.pubnub;
+        if (this.now) {
+          this.pubnub.publish({
+            channel: this.channel,
+            message: this.message,
+            publish_key: this.publish_key
+          });
+        }
+      },
+    });
+  </script>
+</polymer-element>
+
 <!--
 <polymer-element name="core-pubnub-unsubscribe"
-</polymer-element>
-
-
-<polymer-element name="core-pubnub-publish"
 </polymer-element>
 
 <polymer-element name="core-pubnub-history"
