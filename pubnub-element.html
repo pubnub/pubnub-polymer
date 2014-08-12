@@ -203,28 +203,49 @@ Element providing solution to no problem in particular.
 <polymer-element name="core-pubnub-subscribe" attributes="callback channel timetoken connect disconnect error message presence reconnect restore windowing heartbeat state">
   <script>
     Polymer('core-pubnub-subscribe', {
-      /*callback: undefined,
-      channel: undefined,
-      timetoken: undefined,
-      connect: undefined,
-      disconnect: undefined,
-      error: undefined,
-      message: undefined,
-      presence: undefined,
-      reconnect: undefined,
-      restore: undefined,
-      windowing: undefined,
-      heartbeat: undefined,
-      state: undefined,*/
-
       ready: function() {
-        console.log(this.channel);
         this.pubnub  = this.parentNode.pubnub;
+        this.pubnub.subscribe({
+          channel: this.channel,
+          timetoken: this.timetoken,
+          connect: function () {
+            // Fire Connect Event.
+          },
+          disconnect: function() {
+            // Fire Disconnect Event.
+          },
+          error: function() {
+            // Fire Error Event.
+          },
+          message: function() {
+            // Fire Message Event.
+          },
+          presence: function() {
+            // Fire Presence Event.
+          },
+          reconnect: function() {
+            // Fire Reconnect Event.
+          },
+          restore: function() {
+            // Fire Restore Event.
+          },
+          windowing: this.windowing,
+          heartbeat: this.heartbeat,
+          state: this.state
+          });
+      },
+      unsubscribe: function() {
+        // Unsubscribes to the subscribed channel.
       }
     });
   </script>
-</polymer-element>
 
+  <template>
+    <span> HELLO </span>
+    <content></content>
+  </template>
+</polymer-element>
+<!--
 <polymer-element name="core-pubnub-unsubscribe"
 </polymer-element>
 
@@ -240,4 +261,4 @@ Element providing solution to no problem in particular.
 
 <polymer-element name="core-pubnub-where_now"
 </polymer-element>
-
+-->
