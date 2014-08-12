@@ -141,10 +141,7 @@ Element providing solution to no problem in particular.
             windowing: this.windowing,
             jsonp: this.jsonp
           }
-          console.log(JSON.stringify(settings));
           this.pubnub = PUBNUB.init(settings);
-          // window.pubnub = PUBNUB.init(settings);
-          console.log("WASSUP");
       },
 
       /**
@@ -198,21 +195,25 @@ Element providing solution to no problem in particular.
       channel: [],
       ready: function() {
         var messages = [];
+        var fire = this.fire;
         this.pubnub  = this.parentNode.pubnub;
         this.pubnub.subscribe({
           channel: this.channel,
           timetoken: this.timetoken,
-          connect: function () {
+          connect: function (m) {
             // Fire Connect Event.
-            console.log("subscribed");
+            console.log("connect");
+            fire('connect', m);
           },
-          disconnect: function() {
+          disconnect: function(m) {
             // Fire Disconnect Event.
-            console.log("subscribed");
+            console.log("disconnect");
+            fire('disconnect', m);
           },
-          error: function() {
+          error: function(m) {
             // Fire Error Event.
-            console.log("errored");
+            console.log("error");
+            fire('error', m);
           },
           message: function(m) {
             // Fire Message Event.
@@ -220,19 +221,23 @@ Element providing solution to no problem in particular.
             console.log(m);
             messages.push(m);
             console.log(messages);
+            fire('message', m);
           },
           presence: function(m) {
             // Fire Presence Event.
             console.log("presence");
             console.log(m);
+            fire('presence', m);
           },
-          reconnect: function() {
+          reconnect: function(m) {
             // Fire Reconnect Event.
             console.log("reconnect");
+            fire('reconnect', m);
           },
-          restore: function() {
+          restore: function(m) {
             // Fire Restore Event.
             console.log("restored");
+            fire('restore', m);
           },
           windowing: this.windowing,
           heartbeat: this.heartbeat,
@@ -240,7 +245,7 @@ Element providing solution to no problem in particular.
           });
       },
       unsubscribe: function() {
-        // Unsubscribes to the subscribed channel.
+        // Unsubscribes to the subscribed channel/channels.
         this.pubnub.unsubscribe({channel: this.channel});
       }
     });
@@ -254,24 +259,29 @@ Element providing solution to no problem in particular.
       message: {},
       ready: function() {
         console.log(this.message);
+        var fire = this.fire;
         this.pubnub = this.parentNode.pubnub;
-        if (this.now) {
-          this.pubnub.publish({
-            channel: this.channel,
-            message: this.message,
-            publish_key: this.publish_key
-          });
-        }
+        this.pubnub.publish({
+          channel: this.channel,
+          message: this.message,
+          publish_key: this.publish_key,
+          callback: function(m) {
+            fire('callback', m);
+          },
+          error: function(m) {
+            fire('error', m);
+          }
+        });
       },
     });
   </script>
 </polymer-element>
 
-<!--
-<polymer-element name="core-pubnub-unsubscribe"
+<polymer-element name="core-pubnub-history"
 </polymer-element>
 
-<polymer-element name="core-pubnub-history"
+<!--
+<polymer-element name="core-pubnub-unsubscribe"
 </polymer-element>
 
 <polymer-element name="core-pubnub-here_now"
