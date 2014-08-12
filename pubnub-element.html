@@ -193,8 +193,9 @@ Element providing solution to no problem in particular.
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
+      messages: [],
       ready: function() {
-        var messages = [];
+        var messages = this.messages;
         var fire = this.fire;
         this.pubnub  = this.parentNode.pubnub;
         this.pubnub.subscribe({
@@ -215,13 +216,13 @@ Element providing solution to no problem in particular.
             console.log("error");
             fire('error', m);
           },
-          message: function(m) {
+          callback: function(m) {
             // Fire Message Event.
             console.log("message");
-            console.log(m);
+            // console.log(m);
             messages.push(m);
-            console.log(messages);
-            fire('message', m);
+            //console.log(messages);
+            fire('callback', m);
           },
           presence: function(m) {
             // Fire Presence Event.
@@ -277,8 +278,30 @@ Element providing solution to no problem in particular.
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-history"
+<polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start">
+  <script>
+    Polymer('core-pubnub-history', {
+      ready: function() {
+        this.pubnub = this.parentNode.pubnub;
+        var fire = this.fire;
+        this.pubnub.history({
+          channel: this.channel,
+          count: this.count,
+          end: this.end,
+          reverse: this.reverse,
+          start: this.start,
+          callback: function(m) {
+            fire('callback', m);
+          },
+          error: function(m) {
+            fire('error', m);
+          }
+        });
+      }
+    });
+  </script>
 </polymer-element>
+
 
 <!--
 <polymer-element name="core-pubnub-unsubscribe"
