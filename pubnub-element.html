@@ -141,10 +141,8 @@
           this.pubnub = PUBNUB.init(settings);
           this.fire('ready', this.pubnub);
       },
-
-      getPub: function() {
-        console.log("Getting Pub");
-        return this.pubnub;
+      auth_keyChanged: function(oldValue, newValue) {
+        this.pubnub.auth(newValue);
       }
     });
 
