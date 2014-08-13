@@ -2,13 +2,20 @@
 <link rel="import" href="pubnub-element.html">
 <polymer-element name="list-data">
 <template>
-<core-pubnub publish_key="demo" subscribe_key="demo" id="WOLOL">
-<core-pubnub-history channel="what" history={{herstory}}>
+<core-pubnub publish_key="demo" subscribe_key="demo">
+<core-pubnub-subscribe channel="what" messages="{{msgs}}">
+</core-pubnub-subscribe>
+<core-pubnub-publish channel="what" message="wassup?">
+</core-pubnub-publish>
+<core-pubnub-history channel="what" history="{{herstory}}">
 </core-pubnub-history>
   </core-pubnub>
+  <template repeat="{{msg in msgs}}">
+  <p>{{msg}}</p>
+  </template>
   <template repeat="{{her in herstory}}">
-  <h2>{{her}}</h2>
-    </template>
+  <p>{{her}}</p>
+  </template>
   WAH
   </template>
   <script>

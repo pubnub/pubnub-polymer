@@ -1,5 +1,4 @@
 <link rel="import" href="bower_components/polymer/polymer.html"> 
-<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
 
 <!--
 @element core-pubnub
@@ -7,7 +6,9 @@
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" constructor="corePubNub" hidden attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp pubnub">
+<polymer-element name="core-pubnub" constructor="corePubNub" hidden attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp ">
+  <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+
   <script>
 
     Polymer('core-pubnub', {
@@ -123,7 +124,6 @@
       
 
       ready: function() {
-        console.log("WAT");
           var settings = {
             publish_key: this.publish_key,
             subscribe_key: this.subscribe_key,
@@ -137,7 +137,7 @@
             windowing: this.windowing,
             jsonp: this.jsonp
           }
-          console.log("HI");
+          console.log("CORE READY");
           this.pubnub = PUBNUB.init(settings);
           this.fire('ready', this.pubnub);
       },
@@ -188,57 +188,62 @@
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
-      messages: [],
       ready: function() {
-        var messages = this.messages;
         var fire = this.fire;
-        this.pubnub  = this.parentNode.pubnub;
-        this.pubnub.subscribe({
-          channel: this.channel,
-          timetoken: this.timetoken,
-          connect: function (m) {
-            // Fire Connect Event.
-            console.log("connect");
-            fire('connect', m);
-          },
-          disconnect: function(m) {
-            // Fire Disconnect Event.
-            console.log("disconnect");
-            fire('disconnect', m);
-          },
-          error: function(m) {
-            // Fire Error Event.
-            console.log("error");
-            fire('error', m);
-          },
-          callback: function(m) {
-            // Fire Message Event.
-            console.log("message");
-            // console.log(m);
-            messages.push(m);
-            //console.log(messages);
-            fire('callback', m);
-          },
-          presence: function(m) {
-            // Fire Presence Event.
-            console.log("presence");
-            console.log(m);
-            fire('presence', m);
-          },
-          reconnect: function(m) {
-            // Fire Reconnect Event.
-            console.log("reconnect");
-            fire('reconnect', m);
-          },
-          restore: function(m) {
-            // Fire Restore Event.
-            console.log("restored");
-            fire('restore', m);
-          },
-          windowing: this.windowing,
-          heartbeat: this.heartbeat,
-          state: this.state
+        var self = this;
+        var onReady = function(e) {
+          self.messages =[];
+          var pubnub  = e.detail;
+          pubnub.subscribe({
+            channel: self.channel,
+            timetoken: self.timetoken,
+            connect: function (m) {
+              // Fire Connect Event.
+              console.log("connect");
+              fire('connect', m);
+            },
+            disconnect: function(m) {
+              // Fire Disconnect Event.
+              console.log("disconnect");
+              fire('disconnect', m);
+            },
+            error: function(m) {
+              // Fire Error Event.
+              console.log("error");
+              fire('error', m);
+            },
+            callback: function(m) {
+              // Fire Message Event.
+              console.log("message");
+              console.log(m);
+              self.messages.push(m);
+              //console.log(messages);
+              fire('callback', m);
+            },
+            presence: function(m) {
+              // Fire Presence Event.
+              console.log("presence");
+              console.log(m);
+              fire('presence', m);
+            },
+            reconnect: function(m) {
+              // Fire Reconnect Event.
+              console.log("reconnect");
+              fire('reconnect', m);
+            },
+            restore: function(m) {
+              // Fire Restore Event.
+              console.log("restored");
+              fire('restore', m);
+            },
+            windowing: self.windowing,
+            heartbeat: self.heartbeat,
+            state: self.state
           });
+          self.parentNode.removeEventListener('ready', onReady);
+        };
+        console.log(this.parentNode);
+        this.parentNode.addEventListener('ready', onReady);
       },
       unsubscribe: function() {
         // Unsubscribes to the subscribed channel/channels.
@@ -254,20 +259,33 @@
     Polymer('core-pubnub-publish', {
       message: {},
       ready: function() {
-        console.log(this.message);
+        var self = this;
         var fire = this.fire;
-        this.pubnub = this.parentNode.pubnub;
-        this.pubnub.publish({
-          channel: this.channel,
-          message: this.message,
-          publish_key: this.publish_key,
-          callback: function(m) {
-            fire('callback', m);
-          },
-          error: function(m) {
-            fire('error', m);
-          }
-        });
+        var onReady = function(e) {
+          console.log("PUBLISHING TIME");
+          var pubnub = e.detail;
+          var imReady = function() {
+            console.log("GO FOR IT BRAH");
+            fire('ready', pubnub);
+          };
+          imReady();
+          pubnub.publish({
+            channel: self.channel,
+            message: self.message,
+            publish_key: self.publish_key,
+            callback: function(m) {
+              fire('callback', m);
+              imReady();
+            },
+            error: function(m) {
+              fire('error', m);
+              imReady();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        console.log(this.parentNode);
+        this.parentNode.addEventListener('ready', onReady);
       },
     });
   </script>
@@ -278,11 +296,15 @@
     Polymer('core-pubnub-history', {
       count: 100,
       ready: function() {
-          var self = this;
-       var onReady = function(e) {
-          this.pubnub = e.detail;
-          var fire = self.fire;
-          this.pubnub.history({
+        var self = this;
+        var fire = this.fire;
+        var onReady = function(e) {
+          console.log("CALL ME MAYBE");
+          var pubnub = e.detail;
+          var ready = function() {
+            fire('ready', pubnub);
+          };
+          pubnub.history({
             channel: self.channel,
             count: self.count,
             end: self.end,
@@ -290,14 +312,17 @@
             start: self.start,
             callback: function(m) {
               self.history = m;
-              console.log("HER STORY");
+              console.log("HISTORY IS IN THE MAKING!");
               console.log(m);
               fire('callback', m);
+              ready();
             },
             error: function(m) {
               fire('error', m);
+              ready();
             }
           });
+          self.parentNode.removeEventListener('ready', onReady);
         }
         this.parentNode.addEventListener('ready', onReady);
       }
