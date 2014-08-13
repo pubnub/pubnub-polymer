@@ -3,21 +3,33 @@
 <polymer-element name="list-data">
 <template>
 <core-pubnub publish_key="demo" subscribe_key="demo">
-<core-pubnub-subscribe channel="what" messages="{{msgs}}">
+
+<core-pubnub-subscribe channel="what" messages="{{msgs}}" subscribe="true">
 </core-pubnub-subscribe>
+
 <core-pubnub-publish channel="what" message="wassup?">
 </core-pubnub-publish>
+
 <core-pubnub-history channel="what" history="{{herstory}}">
 </core-pubnub-history>
-  </core-pubnub>
+
+<core-pubnub-here-now channel="what" presence="{{datum}}">
+</core-pubnub-here-now>
+
+</core-pubnub>
+  <h1>MESSAGES</h1> <hr>
   <template repeat="{{msg in msgs}}">
   <p>{{msg}}</p>
   </template>
+  <h1>HISTORY</h1> <hr>
   <template repeat="{{her in herstory}}">
   <p>{{her}}</p>
   </template>
-  WAH
+  <h1>HERE NOW</h1> <hr>
+  <template repeat="{{dat in datum}}">
+  <p>{{dat}}</p>
   </template>
+</template>
   <script>
 Polymer({});
   </script>

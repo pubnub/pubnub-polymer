@@ -152,17 +152,17 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages">
+<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages subscribe">
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
+      subscribe: true,
       ready: function() {
         var fire = this.fire;
         var self = this;
-        var onReady = function(e) {
+        this.sub = function() {
           self.messages =[];
-          var pubnub  = e.detail;
-          pubnub.subscribe({
+          self.pubnub.subscribe({
             channel: self.channel,
             timetoken: self.timetoken,
             connect: function (m) {
@@ -208,14 +208,27 @@
             heartbeat: self.heartbeat,
             state: self.state
           });
+        };
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+          console.log(self.subscribe);
+          if (self.subscribe) {
+            self.sub();
+          }
           self.parentNode.removeEventListener('ready', onReady);
         };
         console.log(this.parentNode);
         this.parentNode.addEventListener('ready', onReady);
       },
-      unsubscribe: function() {
-        // Unsubscribes to the subscribed channel/channels.
-        this.pubnub.unsubscribe({channel: this.channel});
+      subscribeChanged: function(oldValue, newValue) {
+        if (newValue) {
+          this.sub();
+        }
+        else {
+          this.pubnub.unsubscribe({
+            channel: this.channel    
+          });
+        }
       }
     });
   </script>
@@ -298,14 +311,44 @@
   </script>
 </polymer-element>
 
+<polymer-element name="core-pubnub-here-now" attributes="channel state uuids presence">
+  <script>
+    Polymer('core-pubnub-here-now', {
+      state: false,
+      uuids: true,
+      presence: {},
+      ready: function() {
+        var self = this;
+        self.presence = ["scrubs", "nubs"];
+        var onReady = function(e) {
+          var pubnub = e.detail;
+          var ready = function() {
+            fire('ready', pubnub);
+          };
+          pubnub.here_now({
+            channel: self.channel,
+            state: self.state,
+            uuids: self.uuids,
+            error: function(m) {
+              console.log('error');
+              self.fire('error', m);
+            },
+            callback: function(m) {
+              console.log('callback');
+              self.data = m;
+              console.log(m);
+              self.fire('callback', m);
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        this.parentNode.addEventListener('ready', onReady);
+      }
+    });
+  </script>
+</polymer-element>
 
 <!--
-<polymer-element name="core-pubnub-unsubscribe"
-</polymer-element>
-
-<polymer-element name="core-pubnub-here_now"
-</polymer-element>
-
 <polymer-element name="core-pubnub-where_now"
 </polymer-element>
 -->
