@@ -7,7 +7,7 @@
 @homepage 
 -->
 <polymer-element name="core-pubnub" constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp ">
-  <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+  <script src="https://cdn.pubnub.com/pubnub.js"></script>
 
   <script>
 
@@ -369,6 +369,40 @@
             error: function(m) {
               console.log(m);
               fire('error', m);
+              ready();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        this.parentNode.addEventListener('ready', onReady);
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="core-pubnub-replay" attributes="source destination end limit reverse start stop">
+  <script>
+    Polymer('core-pubnub-replay', {
+      ready: function() {
+        var self = this;
+        var fire = this.fire;
+        var onReady = function(e) {
+          var pubnub = e.detail;
+          var ready = function() {
+            fire('ready', pubnub);
+          };
+          pubnub.replay({
+            source: self.source,
+            destination: self.destination,
+            end: self.end,
+            limit: self.limit,
+            reverse: self.reverse,
+            start: self.start,
+            stop: self.stop,
+            callback: function(m) {
+            console.log("AOSIDJIOAJDOIASJDIOAJSIDJAOJSDIAJDSOJAISDJOAJDISADJSIDAOJ");
+              console.log(m);
+              fire('callback', m);
               ready();
             }
           });
