@@ -6,7 +6,9 @@
 <core-pubnub-history channel="what" history={{herstory}}>
 </core-pubnub-history>
   </core-pubnub>
-    <h2>"{{herstory}}"</h2>
+  <template repeat="{{her in herstory}}">
+  <h2>{{her}}</h2>
+    </template>
   WAH
   </template>
   <script>
