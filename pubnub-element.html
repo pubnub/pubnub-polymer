@@ -6,7 +6,7 @@
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" constructor="corePubNub" hidden attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp ">
+<polymer-element name="core-pubnub" constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp ">
   <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
 
   <script>
@@ -145,46 +145,14 @@
       getPub: function() {
         console.log("Getting Pub");
         return this.pubnub;
-      },
-
-      /**
-       * The `sayHello` method will return a greeting.
-       * 
-       * @method sayHello
-       * @param {String} greeting Pass in a specific greeting.
-       * @return {String} Returns a string greeting.
-       */
-      sayHello: function(greeting) {
-        var response = greeting || 'Hello World!';
-        return 'seed-element says, ' + response;
-      },
-
-      /**
-       * The `seed-element-lasers-success` event is fired whenever we
-       * call fireLasers.
-       * 
-       * @event seed-element-lasers-success
-       * @param {Object} detail
-       *   @param {string} detail.sound An amazing sound.
-       */
-
-      /**
-       * The `fireLasers` method will fire the lasers. At least
-       * it will dispatch an event that claims lasers were fired :)
-       * 
-       * @method fireLasers
-       */
-      fireLasers: function() {
-        this.fire('seed-element-lasers-success', { sound: 'Pew pew pew!' });
       }
-
     });
 
   </script>
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-subscribe" hidden attributes="channel windowing heartbeat state messages">
+<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages">
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
@@ -254,7 +222,7 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key">
+<polymer-element name="core-pubnub-publish" attributes="channel message publish_key">
   <script>
     Polymer('core-pubnub-publish', {
       message: {},
@@ -291,7 +259,7 @@
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start history">
+<polymer-element name="core-pubnub-history" attributes="channel count end reverse start history">
   <script>
     Polymer('core-pubnub-history', {
       count: 100,
