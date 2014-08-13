@@ -157,7 +157,6 @@
       channel: [],
       subscribe: true,
       ready: function() {
-        var fire = this.fire;
         var self = this;
         this.sub = function() {
           self.messages = [];
@@ -168,18 +167,19 @@
             connect: function (m) {
               // Fire Connect Event.
               console.log("connect");
-              fire('connect', m);
+              self.fire('connect', m);
+              self.fire('ready', self.pubnub);
               self.done = true;
             },
             disconnect: function(m) {
               // Fire Disconnect Event.
               console.log("disconnect");
-              fire('disconnect', m);
+              self.fire('disconnect', m);
             },
             error: function(m) {
               // Fire Error Event.
               console.log("error");
-              fire('error', m);
+              self.fire('error', m);
             },
             callback: function(m) {
               // Fire Message Event.
@@ -187,24 +187,24 @@
               console.log(m);
               self.messages.push(m);
               //console.log(messages);
-              fire('callback', m);
+              self.fire('callback', m);
             },
             presence: function(m) {
               // Fire Presence Event.
               console.log("presence");
               console.log(m);
               self.presence.push(m);
-              fire('presence', m);
+              self.fire('presence', m);
             },
             reconnect: function(m) {
               // Fire Reconnect Event.
               console.log("reconnect");
-              fire('reconnect', m);
+              self.fire('reconnect', m);
             },
             restore: function(m) {
               // Fire Restore Event.
               console.log("restored");
-              fire('restore', m);
+              self.fire('restore', m);
             },
             windowing: self.windowing,
             heartbeat: self.heartbeat,
@@ -212,6 +212,7 @@
           });
         };
         var onReady = function(e) {
+          console.log("WHY U DO DIS");
           self.pubnub = e.detail;
           if (self.subscribe) {
             self.sub();
@@ -219,9 +220,11 @@
           self.parentNode.removeEventListener('ready', onReady);
         };
         console.log(this.parentNode);
-        this.parentNode.addEventListener('ready', onReady);
         if (this.parentNode.done) {
           onReady({detail : this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
         }
       },
       subscribeChanged: function(oldValue, newValue) {
@@ -245,12 +248,11 @@
       message: {},
       ready: function() {
         var self = this;
-        var fire = this.fire;
         var onReady = function(e) {
           console.log("PUBLISHING TIME");
           self.pubnub = e.detail;
           var ready = function() {
-            fire('ready', self.pubnub);
+            self.fire('ready', self.pubnub);
             self.done = true;
           };
           self.pubnub.publish({
@@ -258,11 +260,11 @@
             message: self.message,
             publish_key: self.publish_key,
             callback: function(m) {
-              fire('callback', m);
+              self.fire('callback', m);
               ready();
             },
             error: function(m) {
-              fire('error', m);
+              self.fire('error', m);
               ready();
             }
           });
@@ -270,9 +272,9 @@
         }
         console.log(this.parentNode);
         this.parentNode.addEventListener('ready', onReady);
-        if (this.parentNode.done) {
-          onReady({detail: this.parentNode.pubnub});
-        }
+        //if (this.parentNode.done) {
+          //onReady({detail: this.parentNode.pubnub});
+        //}
       },
     });
   </script>
@@ -284,12 +286,11 @@
       count: 100,
       ready: function() {
         var self = this;
-        var fire = this.fire;
         var onReady = function(e) {
           console.log("CALL ME MAYBE");
           self.pubnub = e.detail;
           var ready = function() {
-            fire('ready', self.pubnub);
+            self.fire('ready', self.pubnub);
             self.done = true;
           };
           self.pubnub.history({
@@ -302,11 +303,11 @@
               self.history = m;
               console.log("HISTORY IS IN THE MAKING!");
               console.log(m);
-              fire('callback', m);
+              self.fire('callback', m);
               ready();
             },
             error: function(m) {
-              fire('error', m);
+              self.fire('error', m);
               ready();
             }
           });
@@ -329,11 +330,10 @@
       presence: [], 
       ready: function() {
         var self = this;
-        var fire = this.fire;
         var onReady = function(e) {
           self.pubnub = e.detail;
           var ready = function() {
-            fire('ready', self.pubnub);
+            self.fire('ready', self.pubnub);
             self.done = true;
           };
           self.pubnub.here_now({
@@ -342,13 +342,13 @@
             uuids: self.uuids,
             error: function(m) {
               console.log('error');
-              fire('error', m);
+              self.fire('error', m);
             },
             callback: function(m) {
               console.log('callback');
               self.presence = m.uuids;
               console.log(m);
-              fire('callback', m);
+              self.fire('callback', m);
             }
           });
           self.parentNode.removeEventListener('ready', onReady);
@@ -368,11 +368,10 @@
         presence: [],      
         ready: function() {
         var self = this;
-        var fire = this.fire;
         var onReady = function(e) {
           self.pubnub = e.detail;
           var ready = function() {
-            fire('ready', self.pubnub);
+            self.fire('ready', self.pubnub);
             self.done = true;
           };
           self.pubnub.where_now({
@@ -380,12 +379,12 @@
             callback: function(m) {
               console.log(m);
               self.presence = m.channels;
-              fire('callback', m);
+              self.fire('callback', m);
               ready();
             },
             error: function(m) {
               console.log(m);
-              fire('error', m);
+              self.fire('error', m);
               ready();
             }
           });
@@ -405,11 +404,10 @@
     Polymer('core-pubnub-replay', {
       ready: function() {
         var self = this;
-        var fire = this.fire;
         var onReady = function(e) {
           self.pubnub = e.detail;
           var ready = function() {
-            fire('ready', self.pubnub);
+            self.fire('ready', self.pubnub);
             self.done = true;
           };
           pubnub.replay({
@@ -423,7 +421,7 @@
             callback: function(m) {
             console.log("AOSIDJIOAJDOIASJDIOAJSIDJAOJSDIAJDSOJAISDJOAJDISADJSIDAOJ");
               console.log(m);
-              fire('callback', m);
+              self.fire('callback', m);
               ready();
             }
           });
