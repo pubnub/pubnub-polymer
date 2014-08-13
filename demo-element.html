@@ -2,7 +2,7 @@
 <link rel="import" href="pubnub-element.html">
 <polymer-element name="list-data">
 <template>
-<core-pubnub publish_key="demo" subscribe_key="demo">
+<core-pubnub publish_key="demo" subscribe_key="demo" uuid="time of my pie">
 
 <core-pubnub-subscribe channel="what" messages="{{msgs}}" subscribe="true">
 </core-pubnub-subscribe>
@@ -16,6 +16,9 @@
 <core-pubnub-here-now channel="what" presence="{{datum}}">
 </core-pubnub-here-now>
 
+<core-pubnub-where-now presence="{{where}}">
+</core-pubnub-where-now>
+
 </core-pubnub>
   <h1>MESSAGES</h1> <hr>
   <template repeat="{{msg in msgs}}">
@@ -28,6 +31,10 @@
   <h1>HERE NOW</h1> <hr>
   <template repeat="{{dat in datum}}">
   <p>{{dat}}</p>
+  </template>
+  <h1>WHERE NOW</h1> <hr>
+  <template repeat="{{wh in where}}">
+  <p>{{wh}}</p>
   </template>
 </template>
   <script>

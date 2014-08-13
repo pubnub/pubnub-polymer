@@ -211,7 +211,6 @@
         };
         var onReady = function(e) {
           self.pubnub = e.detail;
-          console.log(self.subscribe);
           if (self.subscribe) {
             self.sub();
           }
@@ -245,22 +244,21 @@
         var onReady = function(e) {
           console.log("PUBLISHING TIME");
           var pubnub = e.detail;
-          var imReady = function() {
+          var ready = function() {
             console.log("GO FOR IT BRAH");
             fire('ready', pubnub);
           };
-          imReady();
           pubnub.publish({
             channel: self.channel,
             message: self.message,
             publish_key: self.publish_key,
             callback: function(m) {
               fire('callback', m);
-              imReady();
+              ready();
             },
             error: function(m) {
               fire('error', m);
-              imReady();
+              ready();
             }
           });
           self.parentNode.removeEventListener('ready', onReady);
@@ -316,9 +314,10 @@
     Polymer('core-pubnub-here-now', {
       state: false,
       uuids: true,
-      presence: {},
+      presence: [], 
       ready: function() {
         var self = this;
+        var fire = this.fire;
         var onReady = function(e) {
           var pubnub = e.detail;
           var ready = function() {
@@ -330,13 +329,13 @@
             uuids: self.uuids,
             error: function(m) {
               console.log('error');
-              self.fire('error', m);
+              fire('error', m);
             },
             callback: function(m) {
               console.log('callback');
               self.presence = m.uuids;
               console.log(m);
-              self.fire('callback', m);
+              fire('callback', m);
             }
           });
           self.parentNode.removeEventListener('ready', onReady);
@@ -347,9 +346,36 @@
   </script>
 </polymer-element>
 
-<!--
-<polymer-element name="core-pubnub-where_now"
+<polymer-element name="core-pubnub-where-now" attributes="uuid presence">
+  <script>
+    Polymer('core-pubnub-where-now', {
+        presence: [],      
+        ready: function() {
+        var self = this;
+        var fire = this.fire;
+        var onReady = function(e) {
+          var pubnub = e.detail;
+          var ready = function() {
+            fire('ready', pubnub);
+          };
+          pubnub.where_now({
+            uuid: self.uuid,
+            callback: function(m) {
+              console.log(m);
+              self.presence = m.channels;
+              fire('callback', m);
+              ready();
+            },
+            error: function(m) {
+              console.log(m);
+              fire('error', m);
+              ready();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        this.parentNode.addEventListener('ready', onReady);
+      }
+    });
+  </script>
 </polymer-element>
--->
-
-
