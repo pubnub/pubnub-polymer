@@ -319,7 +319,6 @@
       presence: {},
       ready: function() {
         var self = this;
-        self.presence = ["scrubs", "nubs"];
         var onReady = function(e) {
           var pubnub = e.detail;
           var ready = function() {
@@ -335,7 +334,7 @@
             },
             callback: function(m) {
               console.log('callback');
-              self.data = m;
+              self.presence = m.uuids;
               console.log(m);
               self.fire('callback', m);
             }
