@@ -152,7 +152,7 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages subscribe">
+<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages presence subscribe">
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
@@ -161,7 +161,8 @@
         var fire = this.fire;
         var self = this;
         this.sub = function() {
-          self.messages =[];
+          self.messages = [];
+          self.presence = [];
           self.pubnub.subscribe({
             channel: self.channel,
             timetoken: self.timetoken,
@@ -192,6 +193,7 @@
               // Fire Presence Event.
               console.log("presence");
               console.log(m);
+              self.presence.push(m);
               fire('presence', m);
             },
             reconnect: function(m) {

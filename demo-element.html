@@ -4,7 +4,7 @@
 <template>
 <core-pubnub publish_key="demo" subscribe_key="demo" uuid="time of my pie">
 
-<core-pubnub-subscribe channel="what" messages="{{msgs}}" subscribe="true">
+<core-pubnub-subscribe channel="what" messages="{{msgs}}" presence="{{presents}}" subscribe="true">
 </core-pubnub-subscribe>
 
 <core-pubnub-publish channel="what" message="wassup?">
@@ -23,6 +23,10 @@
   <h1>MESSAGES</h1> <hr>
   <template repeat="{{msg in msgs}}">
   <p>{{msg}}</p>
+  </template>
+  <h1>PRESENCE</h1> <hr>
+  <template repeat="{{pres in presents}}">
+  <p>{{pres}}</p>
   </template>
   <h1>HISTORY</h1> <hr>
   <template repeat="{{her in herstory}}">
