@@ -139,6 +139,12 @@
           }
           console.log("HI");
           this.pubnub = PUBNUB.init(settings);
+          this.fire('ready', this.pubnub);
+      },
+
+      getPub: function() {
+        console.log("Getting Pub");
+        return this.pubnub;
       },
 
       /**
@@ -272,28 +278,28 @@
     Polymer('core-pubnub-history', {
       count: 100,
       ready: function() {
-        this.pubnub = this.parentNode.pubnub;
-        var me = this;
-        var fire = this.fire;
-        console.log(this.pubnub);
-        console.log(this.parentNode);
-        this.pubnub.history({
-          channel: this.channel,
-          count: this.count,
-          end: this.end,
-          reverse: this.reverse,
-          start: this.start,
-          callback: function(m) {
-            //this.history = m;
-            me.history = "WOLOLOL";
-            console.log("HER STORY");
-            console.log(m);
-            fire('callback', m);
-          },
-          error: function(m) {
-            fire('error', m);
-          }
-        });
+          var self = this;
+       var onReady = function(e) {
+          this.pubnub = e.detail;
+          var fire = self.fire;
+          this.pubnub.history({
+            channel: self.channel,
+            count: self.count,
+            end: self.end,
+            reverse: self.reverse,
+            start: self.start,
+            callback: function(m) {
+              self.history = m;
+              console.log("HER STORY");
+              console.log(m);
+              fire('callback', m);
+            },
+            error: function(m) {
+              fire('error', m);
+            }
+          });
+        }
+        this.parentNode.addEventListener('ready', onReady);
       }
     });
   </script>

@@ -1,0 +1,15 @@
+<link rel="import" href="bower_components/polymer/polymer.html"> 
+<link rel="import" href="pubnub-element.html">
+<polymer-element name="list-data">
+<template>
+<core-pubnub publish_key="demo" subscribe_key="demo" id="WOLOL">
+<core-pubnub-history channel="what" history={{herstory}}>
+</core-pubnub-history>
+  </core-pubnub>
+    <h2>"{{herstory}}"</h2>
+  WAH
+  </template>
+  <script>
+Polymer({});
+  </script>
+</polymer-element>
