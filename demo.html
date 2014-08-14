@@ -12,20 +12,22 @@
 </head>
 <body >
 <h1>TESTING</h1><hr><hr>
+<!--
   <core-pubnub publish_key="demo" subscribe_key="demo" id="core">
     <core-pubnub-subscribe channel="what" id="sub">
       <core-pubnub-publish channel="what" id="pub" message='["wat", "DAH" ]'>
       </core-pubnub-publish>
     </core-pubnub-subscribe>
-  </core-pubnub>
-<!--
-  <list-data></list-data>
     <core-pubnub-history channel="what" id="hist">
     </core-pubnub-history>
-  
+  </core-pubnub>
+  -->
+  <list-data></list-data>
+<!--  
   <core-pubnub publish_key="demo" subscribe_key="demo" id="core">
 <core-pubnub-subscribe id="test" channel="what"></core-pubnub-subscribe>
   </core-pubnub>
+-->
   <script>
     var test = document.getElementById("test");
     test.addEventListener('callback', function() {
