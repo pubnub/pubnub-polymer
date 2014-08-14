@@ -123,7 +123,7 @@
       jsonp: undefined,
       
 
-      ready: function() {
+      domReady: function() {
           var settings = {
             publish_key: this.publish_key,
             subscribe_key: this.subscribe_key,
@@ -156,7 +156,7 @@
     Polymer('core-pubnub-subscribe', {
       channel: [],
       subscribe: true,
-      ready: function() {
+      domReady: function() {
         var self = this;
         this.sub = function() {
           self.messages = [];
@@ -244,7 +244,7 @@
   <script>
     Polymer('core-pubnub-publish', {
       message: {},
-      ready: function() {
+      domReady: function() {
         var self = this;
         var onReady = function(e) {
           console.log("PUBLISHING TIME");
@@ -284,7 +284,7 @@
   <script>
     Polymer('core-pubnub-history', {
       count: 100,
-      ready: function() {
+      domReady: function() {
         var self = this;
         var onReady = function(e) {
           console.log("CALL ME MAYBE");
@@ -330,7 +330,7 @@
       state: false,
       uuids: true,
       presence: [], 
-      ready: function() {
+      domReady: function() {
         var self = this;
         var onReady = function(e) {
           self.pubnub = e.detail;
@@ -370,7 +370,7 @@
   <script>
     Polymer('core-pubnub-where-now', {
         presence: [],      
-        ready: function() {
+        domReady: function() {
         var self = this;
         var onReady = function(e) {
           self.pubnub = e.detail;
@@ -408,7 +408,7 @@
 <polymer-element name="core-pubnub-replay" attributes="source destination end limit reverse start stop pubnub done">
   <script>
     Polymer('core-pubnub-replay', {
-      ready: function() {
+      domReady: function() {
         var self = this;
         var onReady = function(e) {
           self.pubnub = e.detail;
