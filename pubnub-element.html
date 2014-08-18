@@ -6,7 +6,7 @@
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp pubnub">
+<polymer-element name="core-pubnub" constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp done pubnub">
   <script src="https://cdn.pubnub.com/pubnub.js"></script>
 
   <script>
@@ -137,7 +137,10 @@
             windowing: this.windowing,
             jsonp: this.jsonp
           }
+          console.log("CORE READY");
           this.pubnub = PUBNUB.init(settings);
+          this.fire('ready', this.pubnub);
+          this.done = true;
       },
       auth_keyChanged: function(oldValue, newValue) {
         this.pubnub.auth(newValue);
@@ -148,7 +151,7 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages presence subscribe pubnub">
+<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages presence subscribe pubnub done">
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
@@ -208,9 +211,18 @@
             state: self.state
           });
         };
-        this.pubnub = this.parentNode.pubnub;
-        if (self.subscribe) {
-          self.sub();
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+          if (self.subscribe) {
+            self.sub();
+          }
+          self.parentNode.removeEventListener('ready', onReady);
+        };
+        if (this.parentNode.done) {
+          onReady({detail : this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
         }
       },
       subscribeChanged: function(oldValue, newValue) {
@@ -228,60 +240,91 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-publish" attributes="channel message publish_key pubnub">
+<polymer-element name="core-pubnub-publish" attributes="channel message publish_key pubnub done">
   <script>
     Polymer('core-pubnub-publish', {
       message: {},
       domReady: function() {
-        this.pubnub = this.parentNode.pubnub;
         var self = this;
-        console.log("PUBLISHING TIME");
-        this.pubnub.publish({
-          channel: this.channel,
-          message: this.message,
-          publish_key: this.publish_key,
-          callback: function(m) {
-            self.fire('callback', m);
-          },
-          error: function(m) {
-            self.fire('error', m);
-          }
-        });
+        var onReady = function(e) {
+          console.log("PUBLISHING TIME");
+          self.pubnub = e.detail;
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+          self.pubnub.publish({
+            channel: self.channel,
+            message: self.message,
+            publish_key: self.publish_key,
+            callback: function(m) {
+              self.fire('callback', m);
+              ready();
+            },
+            error: function(m) {
+              self.fire('error', m);
+              ready();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        console.log(this.parentNode);
+        if (this.parentNode.done) {
+          onReady({detail: this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
       },
     });
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-history" attributes="channel count end reverse start history pubnub">
+<polymer-element name="core-pubnub-history" attributes="channel count end reverse start history pubnub done">
   <script>
     Polymer('core-pubnub-history', {
       count: 100,
       domReady: function() {
         var self = this;
-        this.pubnub = this.parentNode.pubnub;
-        console.log("CALL ME MAYBE");
-        this.pubnub.history({
-          channel: this.channel,
-          count: this.count,
-          end: this.end,
-          reverse: this.reverse,
-          start: this.start,
-          callback: function(m) {
-            self.history = m;
-            console.log("HISTORY IS IN THE MAKING!");
-            console.log(m);
-            self.fire('callback', m);
-          },
-          error: function(m) {
-            self.fire('error', m);
-          }
-        });
+        var onReady = function(e) {
+          console.log("CALL ME MAYBE");
+          self.pubnub = e.detail;
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+          self.pubnub.history({
+            channel: self.channel,
+            count: self.count,
+            end: self.end,
+            reverse: self.reverse,
+            start: self.start,
+            callback: function(m) {
+              self.history = m;
+              console.log("HISTORY IS IN THE MAKING!");
+              console.log(m);
+              self.fire('callback', m);
+              ready();
+            },
+            error: function(m) {
+              self.fire('error', m);
+              ready();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        if (this.parentNode.done) {
+          onReady({detail: this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
       }
     });
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-here-now" attributes="channel state uuids presence pubnub">
+<polymer-element name="core-pubnub-here-now" attributes="channel state uuids presence pubnub done">
   <script>
     Polymer('core-pubnub-here-now', {
       state: false,
@@ -289,70 +332,113 @@
       presence: [], 
       domReady: function() {
         var self = this;
-        this.pubnub = this.parentNode.pubnub; 
-        this.pubnub.here_now({
-          channel: this.channel,
-          state: this.state,
-          uuids: this.uuids,
-          error: function(m) {
-            console.log('error');
-            self.fire('error', m);
-          },
-          callback: function(m) {
-            console.log('callback');
-            self.presence = m.uuids;
-            console.log(m);
-            self.fire('callback', m);
-          }
-        });
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+          self.pubnub.here_now({
+            channel: self.channel,
+            state: self.state,
+            uuids: self.uuids,
+            error: function(m) {
+              console.log('error');
+              self.fire('error', m);
+            },
+            callback: function(m) {
+              console.log('callback');
+              self.presence = m.uuids;
+              console.log(m);
+              self.fire('callback', m);
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        if (this.parentNode.done) {
+          onReady({detail: this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
       }
     });
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-where-now" attributes="uuid presence pubnub">
+<polymer-element name="core-pubnub-where-now" attributes="uuid presence pubnub done">
   <script>
     Polymer('core-pubnub-where-now', {
-      presence: [],      
-      domReady: function() {
+        presence: [],      
+        domReady: function() {
         var self = this;
-        this.pubnub = this.parentNode.pubnub;
-        this.pubnub.where_now({
-          uuid: this.uuid,
-          callback: function(m) {
-            console.log(m);
-            self.presence = m.channels;
-            self.fire('callback', m);
-          },
-          error: function(m) {
-            console.log(m);
-            self.fire('error', m);
-          }
-        });
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+          self.pubnub.where_now({
+            uuid: self.uuid,
+            callback: function(m) {
+              console.log(m);
+              self.presence = m.channels;
+              self.fire('callback', m);
+              ready();
+            },
+            error: function(m) {
+              console.log(m);
+              self.fire('error', m);
+              ready();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        if (this.parentNode.done) {
+          onReady({detail: this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
       }
     });
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-replay" attributes="source destination end limit reverse start stop pubnub">
+<polymer-element name="core-pubnub-replay" attributes="source destination end limit reverse start stop pubnub done">
   <script>
     Polymer('core-pubnub-replay', {
       domReady: function() {
         var self = this;
-        this.pubnub = this.parentNode.pubnub;
-        this.pubnub.replay({
-          source: this.source,
-          destination: this.destination,
-          end: this.end,
-          limit: this.limit,
-          reverse: this.reverse,
-          start: this.start,
-          stop: this.stop,
-          callback: function(m) {
-            self.fire('callback', m);
-            ready();
-          }
-        });
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+          pubnub.replay({
+            source: self.source,
+            destination: self.destination,
+            end: self.end,
+            limit: self.limit,
+            reverse: self.reverse,
+            start: self.start,
+            stop: self.stop,
+            callback: function(m) {
+            console.log("AOSIDJIOAJDOIASJDIOAJSIDJAOJSDIAJDSOJAISDJOAJDISADJSIDAOJ");
+              console.log(m);
+              self.fire('callback', m);
+              ready();
+            }
+          });
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+        if (this.parentNode.done) {
+          onReady({detail: this.parentNode.pubnub});
+        }
+        else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
       }
     });
   </script>
