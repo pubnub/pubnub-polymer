@@ -211,18 +211,9 @@
             state: self.state
           });
         };
-        var onReady = function(e) {
-          self.pubnub = e.detail;
-          if (self.subscribe) {
-            self.sub();
-          }
-          self.parentNode.removeEventListener('ready', onReady);
-        };
-        if (this.parentNode.done) {
-          onReady({detail : this.parentNode.pubnub});
-        }
-        else {
-          this.parentNode.addEventListener('ready', onReady);
+        this.pubnub = this.parentNode.pubnub;
+        if (self.subscribe) {
+          self.sub();
         }
       },
       subscribeChanged: function(oldValue, newValue) {
