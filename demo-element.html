@@ -2,13 +2,17 @@
 <link rel="import" href="pubnub-element.html">
 <polymer-element name="list-data">
 <template>
-<core-pubnub publish_key="demo" subscribe_key="demo" uuid="time of my pie">
+<core-pubnub publish_key="pub-c-0236c7bb-a942-4ffd-93fe-c60380d89611" subscribe_key="sub-c-b969ffd2-2707-11e4-a114-02ee2ddab7fe" uuid="time of my pie">
 
 <core-pubnub-subscribe channel="what" messages="{{msgs}}" presence="{{presents}}" subscribe="true">
+<core-pubnub-publish channel="what" message="1">
+<core-pubnub-publish channel="what" message="2">
+<core-pubnub-publish channel="what" message="3">
+</core-pubnub-publish>
+</core-pubnub-publish>
+</core-pubnub-publish>
 </core-pubnub-subscribe>
 
-<core-pubnub-publish channel="what" message="wassup?">
-</core-pubnub-publish>
 
 <core-pubnub-history channel="what" history="{{herstory}}">
 </core-pubnub-history>
@@ -31,7 +35,7 @@
   </template>
   <h1>PRESENCE</h1> <hr>
   <template repeat="{{pres in presents}}">
-  <p>{{pres}}</p>
+  <p>action: {{pres["action"]}}. uuid: {{pres["uuid"]}}. timestamp: {{pres["timestamp"]}}. occupancy: {{pres["occupancy"]}}.<p>
   </template>
   <h1>HISTORY</h1> <hr>
   <template repeat="{{her in herstory}}">
