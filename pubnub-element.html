@@ -19,6 +19,7 @@ This element initializes the PubNub client. This element must be created before 
     Polymer('core-pubnub', {
       /**
         * The `publish_key` attribute sets the publish_key that will be used when publishing messages to a channel.
+        * 
         * **REQUIRED**
         *
         * @attribute publish_key
@@ -29,6 +30,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `subscribe_key` attribute sets the subscribe_key that will be used when subscribing to a channel.
+        * 
         * **REQUIRED**
         *
         * @attribute subscribe_key
@@ -39,6 +41,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `auth_key` attribute sets the auth_key to be used for determining User-Level Access Manager permissions.
+        *
         * **OPTIONAL**
         *
         * @attribute auth_key 
@@ -49,6 +52,8 @@ This element initializes the PubNub client. This element must be created before 
       /**
         * The `origin` attribute specifies the URL of the PubNub server you are connecting to.
         *
+        * **OPTIONAL**
+        *
         * @attribute origin
         * @type String
         * @default undefined
@@ -56,6 +61,7 @@ This element initializes the PubNub client. This element must be created before 
       
       /**
         * The `uuid` attribute sets the unique user id to be used to identify the client. By default a randomly generated uuid is created by the client.
+        *
         * **OPTIONAL**
         *
         * @attribute uuid
@@ -65,6 +71,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `cipher_key` attribute sets the cryptographic key to use for message level encryption with AES.
+        *
         * **OPTIONAL**
         *
         * @attribute cipher_key
@@ -74,6 +81,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `noleave` attribute, when set to true, explicitly disables presence leave events.
+        *
         * **OPTIONAL**
         *
         * @attribute noleave
@@ -83,6 +91,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `keepalive` attribute sets the interval betwween keepalive pings. Defaults to 60 seconds.
+        *
         * **OPTIONAL**
         *
         * @attribute keepalive 
@@ -92,6 +101,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `secret_key` attribute sets the secret_key used only to sign Access Manager API messages.
+        *
         * **OPTIONAL**
         *
         * @attribute secret_key
@@ -101,6 +111,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `ssl` attribute, when set to true, enables transport layer encryption with SSL/TLS. 
+        *
         * **OPTIONAL**
         *
         * @attribute ssl 
@@ -110,6 +121,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
         * The `windowing` sets the time interval in milliseconds that PubNub will use to optimize message delivery by bundling them into a single compressed payload.
+        *
         * **OPTIONAL**
         *
         * @attribute windowing
@@ -119,6 +131,7 @@ This element initializes the PubNub client. This element must be created before 
 
       /**
        * The `jsonp` attribute, when set to true, explicitly enforces JSON(P) as the data transport method.
+        *
         * **OPTIONAL**
        *
        * @attribute jsonp
@@ -179,6 +192,7 @@ Place it inside of a `<core-pubnub>` element.
     Polymer('core-pubnub-subscribe', {
       /**
         * The `channel` attribute specifies the channel to subscribe to. It is possible to specify multiple channels as an array.
+        * 
         * **REQUIRED**
         *
         * @attribute channel
@@ -189,6 +203,7 @@ Place it inside of a `<core-pubnub>` element.
 
       /**
         * The `timetoken` attribute specifies the timetoken from which to start returning any available cached messages. Message retrieval with timetoken is not guranteed and should only be considered a best-effort service.
+        *
         * **OPTIONAL**
         *
         * @attribute timetoken
@@ -198,6 +213,7 @@ Place it inside of a `<core-pubnub>` element.
 
       /**
         * The `windowing` attribute specifies the time interval in milliseconds that PubNub will use to optimize message delivery by bundling them into a single compressed payload. Setting a value of 1000 milliseconds will allow 100 messages in one second to be bundled and compressed for optimized delivery.
+        *
         * **OPTIONAL**
         *
         * @attribute windowing
@@ -207,6 +223,7 @@ Place it inside of a `<core-pubnub>` element.
       
       /**
         * The `heartbeat` attribute defines the period in seconds after which the client should be disconnected due to in-activity. The default is `320` seconds. For mobile devices operating in environments that commonly experience highly variable network connectivity, setting a higher value for heartbeat would prevent the client from experiencing frequent leave/join events.
+        *
         * **OPTIONAL**
         *
         * @attribute heartbeat
@@ -218,6 +235,7 @@ Place it inside of a `<core-pubnub>` element.
         * The `state` attribute is a JSON object of key/value pairs with supported data-types of int, float and string. Nesting of key/values is not permitted and key names beginning with prefix "pn" are reserved.
         * If `state` is undefined, the current state for the specified `uuid` will be returned. If a specified key already exists for the `uuid` it will be over-written with the new value. Key values can be deleted by setting the particular value to "null". 
         * All `state` data for a user is deleted once the associated uuid leaves the channel.
+        *
         * **OPTIONAL**
         *
         * @attribute state 
@@ -227,6 +245,7 @@ Place it inside of a `<core-pubnub>` element.
 
       /**
         * The `restore` attribute, if set to `true` will automatically attempt to retrieve any missed messages when reconnecting after disconnecting.
+        *
         * **OPTIONAL**
         *
         * @attribute restore
@@ -370,7 +389,6 @@ The message argument can contain any JSON serializable data, including: Objects,
 
 Place it inside of a `<core-pubnub>` element.
 
-
     <core-pubnub publish_key="demo" subscribe_key="demo">
       <core-pubnub-publish channel="testChannel" message="Polymer Rules!">
       </core-pubnub-publish>
@@ -386,13 +404,28 @@ Place it inside of a `<core-pubnub>` element.
   <script>
     Polymer('core-pubnub-publish', {
       /**
-        * The `channel` attribute  
+        * The `channel` attribute specifies the channel name to publish messages to. 
+        * 
+        * **REQUIRED**
         *
+        * @attribute channel 
+        * @type String
+        * @default ''
+        */
+
+      /**
+        * The `message` attribute may be any valid JSON type including objects, arrays, strings, and numbers.
         *
+        * **REQUIRED**
+        *
+        * @attribute message
+        * @type Anything
+        * @default ''
         */
 
       /**
         * The `restore` attribute, if set to `true` will automatically attempt to retrieve any missed messages when reconnecting after disconnecting.
+        *
         * **OPTIONAL**
         *
         * @attribute restore
