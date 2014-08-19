@@ -424,13 +424,15 @@ Place it inside of a `<core-pubnub>` element.
         */
 
       /**
-        * The `restore` attribute, if set to `true` will automatically attempt to retrieve any missed messages when reconnecting after disconnecting.
+        * The `success` callback fires on a successful publish.
         *
-        * **OPTIONAL**
+        * @event success
+        */
+
+      /**
+        * The `error` callback fires on a publish error.
         *
-        * @attribute restore
-        * @type Boolean 
-        * @default undefined
+        * @event error
         */
       message: {},
       domReady: function() {
@@ -448,7 +450,7 @@ Place it inside of a `<core-pubnub>` element.
             message: self.message,
             publish_key: self.publish_key,
             callback: function(m) {
-              self.fire('callback', m);
+              self.fire('success', m);
               ready();
             },
             error: function(m) {
