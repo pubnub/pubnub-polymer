@@ -137,7 +137,7 @@
             windowing: this.windowing,
             jsonp: this.jsonp
           }
-          console.log("CORE READY");
+          //console.log("CORE READY");
           this.pubnub = PUBNUB.init(settings);
           this.fire('ready', this.pubnub);
           this.done = true;
@@ -166,44 +166,44 @@
             timetoken: self.timetoken,
             connect: function (m) {
               // Fire Connect Event.
-              console.log("connect");
+              // console.log("connect");
               self.fire('connect', m);
               self.fire('ready', self.pubnub);
               self.done = true;
             },
             disconnect: function(m) {
               // Fire Disconnect Event.
-              console.log("disconnect");
+              // console.log("disconnect");
               self.fire('disconnect', m);
             },
             error: function(m) {
               // Fire Error Event.
-              console.log("error");
+              // console.log("error");
               self.fire('error', m);
             },
             callback: function(m) {
               // Fire Message Event.
-              console.log("message");
-              console.log(m);
+              // console.log("message");
+              // console.log(m);
               self.messages.push(m);
               //console.log(messages);
               self.fire('callback', m);
             },
             presence: function(m) {
               // Fire Presence Event.
-              console.log("presence");
-              console.log(m);
+              // console.log("presence");
+              // console.log(m);
               self.presence.push(m);
               self.fire('presence', m);
             },
             reconnect: function(m) {
               // Fire Reconnect Event.
-              console.log("reconnect");
+              // console.log("reconnect");
               self.fire('reconnect', m);
             },
             restore: function(m) {
               // Fire Restore Event.
-              console.log("restored");
+              // console.log("restored");
               self.fire('restore', m);
             },
             windowing: self.windowing,
@@ -247,8 +247,8 @@
       domReady: function() {
         var self = this;
         var onReady = function(e) {
-          console.log(e);
-          console.log("PUBLISHING TIME");
+          // console.log(e);
+          // console.log("PUBLISHING TIME");
           self.pubnub = e.detail;
           var ready = function() {
             self.fire('ready', self.pubnub);
@@ -269,7 +269,7 @@
           });
           self.parentNode.removeEventListener('ready', onReady);
         }
-        console.log(this.parentNode);
+        // console.log(this.parentNode);
         if (this.parentNode.done) {
           onReady({detail: this.parentNode.pubnub});
         }
@@ -288,7 +288,7 @@
       domReady: function() {
         var self = this;
         var onReady = function(e) {
-          console.log("CALL ME MAYBE");
+          // console.log("CALL ME MAYBE");
           self.pubnub = e.detail;
           var ready = function() {
             self.fire('ready', self.pubnub);
@@ -302,8 +302,8 @@
             start: self.start,
             callback: function(m) {
               self.history = m;
-              console.log("HISTORY IS IN THE MAKING!");
-              console.log(m);
+              // console.log("HISTORY IS IN THE MAKING!");
+              // console.log(m);
               self.fire('callback', m);
               ready();
             },
@@ -344,13 +344,13 @@
             state: self.state,
             uuids: self.uuids,
             error: function(m) {
-              console.log('error');
+              // console.log('error');
               self.fire('error', m);
             },
             callback: function(m) {
-              console.log('callback');
+              // console.log('callback');
               self.presence = m.uuids;
-              console.log(m);
+              // console.log(m);
               self.fire('callback', m);
             }
           });
@@ -382,13 +382,13 @@
           self.pubnub.where_now({
             uuid: self.uuid,
             callback: function(m) {
-              console.log(m);
+              // console.log(m);
               self.presence = m.channels;
               self.fire('callback', m);
               ready();
             },
             error: function(m) {
-              console.log(m);
+              // console.log(m);
               self.fire('error', m);
               ready();
             }
@@ -426,8 +426,8 @@
             start: self.start,
             stop: self.stop,
             callback: function(m) {
-            console.log("AOSIDJIOAJDOIASJDIOAJSIDJAOJSDIAJDSOJAISDJOAJDISADJSIDAOJ");
-              console.log(m);
+              // console.log("AOSIDJIOAJDOIASJDIOAJSIDJAOJSDIAJDSOJAISDJOAJDISADJSIDAOJ");
+              // console.log(m);
               self.fire('callback', m);
               ready();
             }
