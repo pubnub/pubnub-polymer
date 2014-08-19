@@ -153,13 +153,15 @@ This element initializes the PubNub client. This element must be created before 
 </polymer-element>
 
 <!--
-Element that subscribes to PubNub channels.
+This element causes the client to create an open TCP socket to the PubNub Real-Time Network and begin listening for messages on a specified `channel`. 
+
+By default a newly subscribed client will only receive messages published to the channel after the `subscribe()` call completes.
 
 Place it inside of a `<core-pubnub>` element.
 
 All messages received while subscribed to the channel will be pushed into the messages list attribute.
 
-### Example
+### Basic Usage:
 
     <core-pubnub publish_key="demo" subscribe_key="demo">
       <core-pubnub-subscribe channel="testChannel" messages="{{messages}}">
@@ -376,6 +378,20 @@ Place it inside of a `<core-pubnub>` element.
 <polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key pubnub done">
   <script>
     Polymer('core-pubnub-publish', {
+      /**
+        * The `channel` attribute 
+        *
+        *
+        */
+
+      /**
+        * The `restore` attribute, if set to `true` will automatically attempt to retrieve any missed messages when reconnecting after disconnecting.
+        * **OPTIONAL**
+        *
+        * @attribute restore
+        * @type Boolean 
+        * @default undefined
+        */
       message: {},
       domReady: function() {
         var self = this;
