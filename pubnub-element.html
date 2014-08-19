@@ -278,9 +278,9 @@ Place it inside of a `<core-pubnub>` element.
         */
 
       /**
-        * The `message` event fires when a message is received. The message itself is in the `message` event's `detail` property.
+        * The `callback` event fires when a message is received. The message itself is in the `message` event's `detail` property.
         *
-        * @event message
+        * @event callback
         */
 
       /**
@@ -328,7 +328,7 @@ Place it inside of a `<core-pubnub>` element.
               // console.log(m);
               self.messages.push(m);
               //console.log(messages);
-              self.fire('message', m);
+              self.fire('callback', m);
             },
             presence: function(m) {
               // Fire Presence Event.
