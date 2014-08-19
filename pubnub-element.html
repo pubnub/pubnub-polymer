@@ -6,7 +6,7 @@
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp done pubnub">
+<polymer-element name="core-pubnub" hidden constructor="corePubNub" attributes="publish_key subscribe_key auth_key uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp done pubnub">
   <script src="https://cdn.pubnub.com/pubnub.js"></script>
 
   <script>
@@ -151,7 +151,7 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-subscribe" attributes="channel windowing heartbeat state messages presence subscribe pubnub done">
+<polymer-element name="core-pubnub-subscribe" hidden attributes="channel windowing heartbeat state messages presence subscribe pubnub done">
   <script>
     Polymer('core-pubnub-subscribe', {
       channel: [],
@@ -240,7 +240,7 @@
 
 </polymer-element>
 
-<polymer-element name="core-pubnub-publish" attributes="channel message publish_key pubnub done">
+<polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key pubnub done">
   <script>
     Polymer('core-pubnub-publish', {
       message: {},
@@ -281,7 +281,7 @@
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-history" attributes="channel count end reverse start history pubnub done">
+<polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start history pubnub done">
   <script>
     Polymer('core-pubnub-history', {
       count: 100,
@@ -325,7 +325,7 @@
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-here-now" attributes="channel state uuids presence pubnub done">
+<polymer-element name="core-pubnub-here-now" hidden attributes="channel state uuids presence pubnub done">
   <script>
     Polymer('core-pubnub-here-now', {
       state: false,
@@ -367,7 +367,7 @@
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-where-now" attributes="uuid presence pubnub done">
+<polymer-element name="core-pubnub-where-now" hidden attributes="uuid presence pubnub done">
   <script>
     Polymer('core-pubnub-where-now', {
         presence: [],      
@@ -406,7 +406,7 @@
   </script>
 </polymer-element>
 
-<polymer-element name="core-pubnub-replay" attributes="source destination end limit reverse start stop pubnub done">
+<polymer-element name="core-pubnub-replay" hidden attributes="source destination end limit reverse start stop pubnub done">
   <script>
     Polymer('core-pubnub-replay', {
       domReady: function() {
