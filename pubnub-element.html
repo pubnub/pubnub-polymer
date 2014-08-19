@@ -157,11 +157,11 @@ This element causes the client to create an open TCP socket to the PubNub Real-T
 
 By default a newly subscribed client will only receive messages published to the channel after the `subscribe()` call completes.
 
-Place it inside of a `<core-pubnub>` element.
-
 All messages received while subscribed to the channel will be pushed into the messages list attribute.
 
 ### Basic Usage:
+
+Place it inside of a `<core-pubnub>` element.
 
     <core-pubnub publish_key="demo" subscribe_key="demo">
       <core-pubnub-subscribe channel="testChannel" messages="{{messages}}">
@@ -358,11 +358,18 @@ All messages received while subscribed to the channel will be pushed into the me
 </polymer-element>
 
 <!--
-Element that publishes to a PubNub channel.
+This element is used to send messages to all subscribers of a channel. A successfully published message is replicated across the PubNub real-Time Network and sent simultaneously to all subscribed clients on a `channel`. 
+
+## Publish Anytime:
+You aren't required to be subscribed to a channel in order to publish to that channel.
+
+## Message Size:
+The message argument can contain any JSON serializable data, including: Objects, Arrays, Ints and Strings. Message data should not contain special python classes or functions as these will not serialize. String content can include any single-byte or multi-byte UTF-8 character.
+
+### Basic Usage:
 
 Place it inside of a `<core-pubnub>` element.
 
-### Example
 
     <core-pubnub publish_key="demo" subscribe_key="demo">
       <core-pubnub-publish channel="testChannel" message="Polymer Rules!">
@@ -379,7 +386,7 @@ Place it inside of a `<core-pubnub>` element.
   <script>
     Polymer('core-pubnub-publish', {
       /**
-        * The `channel` attribute 
+        * The `channel` attribute  
         *
         *
         */
