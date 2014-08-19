@@ -46,7 +46,6 @@ Element that initializes PubNub.
         * @type string
         * @default undefined
         */
-      auth_key: undefined,
       
       /**
         * The `uuid` attribute sets the unique user id to be used to identify the client. By default a randomly generated uuid is created by the client.
@@ -56,7 +55,6 @@ Element that initializes PubNub.
         * @type string
         * @default undefined
         */
-      uuid: undefined,
 
       /**
         * The `cipher_key` attribute sets the cryptographic key to use for message level encryption with AES.
@@ -66,7 +64,6 @@ Element that initializes PubNub.
         * @type string
         * @default undefined
         */
-      cipher_key: undefined,
 
       /**
         * The `noleave` attribute, when set to true, explicitly disables presence leave events.
@@ -76,7 +73,6 @@ Element that initializes PubNub.
         * @type boolean
         * @default false
         */
-      noleave: undefined,
 
       /**
         * The `keepalive` attribute sets the interval betwween keepalive pings.
@@ -86,7 +82,6 @@ Element that initializes PubNub.
         * @type number
         * @default 60
         */
-      keepalive: undefined,
 
       /**
         * The `secret_key` attribute sets the secret_key used only to sign Access Manager API messages.
@@ -96,7 +91,6 @@ Element that initializes PubNub.
         * @type string
         * @default undefined 
         */
-      secret_key: undefined,
 
       /**
         * The `ssl` attribute, when set to true, enables transport layer encryption with SSL/TLS. 
@@ -106,7 +100,6 @@ Element that initializes PubNub.
         * @type boolean
         * @default false
         */
-      ssl: undefined,
 
       /**
         * The `windowing` sets the time interval in milliseconds that PubNub will use to optimize message delivery by bundling them into a single compressed payload.
@@ -116,7 +109,6 @@ Element that initializes PubNub.
         * @type number
         * @default undefined
         */
-      windowing: undefined,
 
       /**
        * The `jsonp` attribute, when set to true, explicitly enforces JSON(P) as the data transport method.
@@ -126,8 +118,6 @@ Element that initializes PubNub.
        * @type boolean
        * @default undefined
        */
-      jsonp: undefined,
-      
 
       domReady: function() {
           var settings = {
