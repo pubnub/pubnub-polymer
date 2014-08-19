@@ -645,6 +645,7 @@ This element obtains information about the current state of a channel, including
     Polymer('core-pubnub-here-now', {
       /**
         * The `channel` attribute sets the channel name to return occupancy results. If `channel` is not provided, `here_now` will return data for all channels.
+        *
         * **OPTIONAL**
         * 
         * @attribute channel
@@ -653,13 +654,35 @@ This element obtains information about the current state of a channel, including
         */
 
       /**
-        * The `reverse` attribute, when set to `true`, will traverse the time line in reverse starting with the newest message first. If both `start` and `end` are provided, `reverse` is ignored and messages are returned starting with the newest message.
-        *
+        * The `state` attribute, when set to `true`, causes `here_now` to also get subscriber state information.
+        * 
         * **OPTIONAL**
         *
-        * @attribute reverse
+        * @attribute state
         * @type Boolean
         * @default false
+        */
+
+      /**
+        * The `uuids` attribute, when set to `false`, disables the return of uuids.
+        * 
+        * **OPTIONAL**
+        *
+        * @attribute uuids
+        * @type Boolean
+        * @default true
+        */
+
+      /**
+        * The `error` event fires on error to the `here_now` request.
+        *
+        * @event error
+        */
+
+      /**
+        * The `presence` event fires on successful completion of the `here_now` request.
+        *
+        * @event presence
         */
       state: false,
       uuids: true,
@@ -684,7 +707,7 @@ This element obtains information about the current state of a channel, including
               // console.log('callback');
               self.presence = m.uuids;
               // console.log(m);
-              self.fire('callback', m);
+              self.fire('presence', m);
             }
           });
           self.parentNode.removeEventListener('ready', onReady);
