@@ -215,6 +215,51 @@ All messages received while subscribed to the channel will be pushed into the me
         * @default undefined
         */
 
+      /**
+        * The `restore` attribute, if set to `true` will automatically attempt to retrieve any missed messages when reconnecting after disconnecting.
+        * **OPTIONAL**
+        *
+        * @attribute restore
+        * @type Boolean 
+        * @default undefined
+        */
+
+      /**
+        * The `connect` event fires on a successful connection to the PubNub cloud.
+        *
+        * @event connect
+        */
+      
+      /**
+        * The `disconnect` event fires on client disconnect from the PubNub cloud.
+        *
+        * @event disconnect
+        */
+
+      /**
+        * The `error` event fires on errors.
+        *
+        * @event error
+        */
+
+      /**
+        * The `message` event fires when a message is received. The message itself is in the `message` event's `detail` property.
+        *
+        * @event message
+        */
+
+      /**
+        * The `presence` event fires when presence events take place such as `join` or `leave`.
+        *
+        * @event presence
+        */
+
+      /**
+        * The `reconnect` event fires on successfully re-connecting to the PubNub cloud.
+        *
+        * @event reconnect
+        */
+
       subscribe: true,
       domReady: function() {
         var self = this;
@@ -224,6 +269,7 @@ All messages received while subscribed to the channel will be pushed into the me
           self.pubnub.subscribe({
             channel: self.channel,
             timetoken: self.timetoken,
+            restore: self.restore,
             connect: function (m) {
               // Fire Connect Event.
               // console.log("connect");
@@ -260,11 +306,6 @@ All messages received while subscribed to the channel will be pushed into the me
               // Fire Reconnect Event.
               // console.log("reconnect");
               self.fire('reconnect', m);
-            },
-            restore: function(m) {
-              // Fire Restore Event.
-              // console.log("restored");
-              self.fire('restore', m);
             },
             windowing: self.windowing,
             heartbeat: self.heartbeat,
