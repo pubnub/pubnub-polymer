@@ -16,7 +16,6 @@ Element that initializes PubNub.
   <script src="https://cdn.pubnub.com/pubnub.js"></script>
 
   <script>
-
     Polymer('core-pubnub', {
       /**
         * The `publish_key` attribute sets the publish_key that will be used when publishing messages to a channel.
@@ -75,7 +74,7 @@ Element that initializes PubNub.
         */
 
       /**
-        * The `keepalive` attribute sets the interval betwween keepalive pings.
+        * The `keepalive` attribute sets the interval betwween keepalive pings. Defaults to 60 seconds.
         * **OPTIONAL**
         *
         * @attribute keepalive 
@@ -142,9 +141,7 @@ Element that initializes PubNub.
         this.pubnub.auth(newValue);
       }
     });
-
   </script>
-
 </polymer-element>
 
 <!--
@@ -167,10 +164,37 @@ All messages received while subscribed to the channel will be pushed into the me
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-subscribe" hidden attributes="channel windowing heartbeat state messages presence subscribe pubnub done">
+<polymer-element name="core-pubnub-subscribe" hidden attributes="channel timetoken windowing heartbeat state messages presence subscribe pubnub done">
   <script>
     Polymer('core-pubnub-subscribe', {
+      /**
+        * The `channel` attribute specifies the channel to subscribe to. It is possible to specify multiple channels as an array.
+        * **REQUIRED**
+        *
+        * @attribute channel
+        * @type String or Array 
+        * @default ''
+        */
       channel: [],
+
+      /**
+        * The `timetoken` attribute specifies the timetoken from which to start returning any available cached messages. Message retrieval with timetoken is not guranteed and should only be considered a best-effort service.
+        * **OPTIONAL**
+        *
+        * @attribute timetoken
+        * @type Number 
+        * @default undefined 
+        */
+
+      /**
+        * The `windowing` attribute specifies the time interval in milliseconds that PubNub will use to optimize message delivery by bundling them into a single compressed payload. Setting a value of 1000 milliseconds will allow 100 messages in one second to be bundled and compressed for optimized delivery.
+        * **OPTIONAL**
+        *
+        * @attribute windowing
+        * @type Number 
+        * @default 10
+        */
+      
       subscribe: true,
       domReady: function() {
         var self = this;
