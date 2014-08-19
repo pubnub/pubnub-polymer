@@ -195,6 +195,26 @@ All messages received while subscribed to the channel will be pushed into the me
         * @default 10
         */
       
+      /**
+        * The `heartbeat` attribute defines the period in seconds after which the client should be disconnected due to in-activity. The default is `320` seconds. For mobile devices operating in environments that commonly experience highly variable network connectivity, setting a higher value for heartbeat would prevent the client from experiencing frequent leave/join events.
+        * **OPTIONAL**
+        *
+        * @attribute heartbeat
+        * @type Number 
+        * @default 320 
+        */
+
+      /**
+        * The `state` attribute is a JSON object of key/value pairs with supported data-types of int, float and string. Nesting of key/values is not permitted and key names beginning with prefix "pn" are reserved.
+        * If `state` is undefined, the current state for the specified `uuid` will be returned. If a specified key already exists for the `uuid` it will be over-written with the new value. Key values can be deleted by setting the particular value to "null". 
+        * All `state` data for a user is deleted once the associated uuid leaves the channel.
+        * **OPTIONAL**
+        *
+        * @attribute state 
+        * @type Object
+        * @default undefined
+        */
+
       subscribe: true,
       domReady: function() {
         var self = this;
