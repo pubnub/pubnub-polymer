@@ -526,6 +526,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
         * @type String
         * @default ''
         */
+
       /**
         * The `count` attribute specifies the number of historical messages to return.
         *
@@ -535,6 +536,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
         * @type Number
         * @default 100 
         */
+
       /**
         * The `end` attribute specifies the time token delimiting the end of time slice (inclusive) to pull messages from.
         *
@@ -544,6 +546,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
         * @type Number
         * @default undefined 
         */
+
       /**
         * The `reverse` attribute, when set to `true`, will traverse the time line in reverse starting with the newest message first. If both `start` and `end` are provided, `reverse` is ignored and messages are returned starting with the newest message.
         *
@@ -553,6 +556,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
         * @type Boolean
         * @default false
         */
+
       /**
         * The `start` attribute specifies the time token delimiting the start of time slice (exclusive) to pull messages from.
         *
@@ -562,16 +566,19 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
         * @type Number
         * @default undefined
         */
+
       /**
         * The `success` event is fired on successful retrieval of history.
         *
         * @event success
         */
+
       /**
         * The `error` event is fired on an unsuccessful retrieval of history.
         *
         * @event error
         */
+
       domReady: function() {
         var self = this;
         var onReady = function(e) {
@@ -612,9 +619,48 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
   </script>
 </polymer-element>
 
+<!--
+This element obtains information about the current state of a channel, including a list of unique user-ids currently subscribed to the channel and the total occupancy count of the channel.
+
+### Basic Usage:
+
+    <core-pubnub publish_key="demo" subscribe_key="demo">
+      <core-pubnub-here-now channel="testChannel" presence="{{presence}}">
+      </core-pubnub-history>
+    </core-pubnub>
+
+    <h3>testChannel Presence</h3>
+
+    <template repeat="{{pres in presence}}">
+      <p>{{pres}}</p>
+    </template>
+
+@element core-pubnub-here-now
+@blurb Element obtains information about the current stat of a channel.
+@status alpha
+@homepage 
+-->
 <polymer-element name="core-pubnub-here-now" hidden attributes="channel state uuids presence pubnub done">
   <script>
     Polymer('core-pubnub-here-now', {
+      /**
+        * The `channel` attribute sets the channel name to return occupancy results. If `channel` is not provided, `here_now` will return data for all channels.
+        * **OPTIONAL**
+        * 
+        * @attribute channel
+        * @type String
+        * @default undefined
+        */
+
+      /**
+        * The `reverse` attribute, when set to `true`, will traverse the time line in reverse starting with the newest message first. If both `start` and `end` are provided, `reverse` is ignored and messages are returned starting with the newest message.
+        *
+        * **OPTIONAL**
+        *
+        * @attribute reverse
+        * @type Boolean
+        * @default false
+        */
       state: false,
       uuids: true,
       presence: [], 
