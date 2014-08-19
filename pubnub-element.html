@@ -181,6 +181,12 @@ Place it inside of a `<core-pubnub>` element.
       </core-pubnub-subscribe>
     </core-pubnub>
 
+    <h3>testChannel Messages</h3>
+
+    <template repeat="{{msg in messages}}">
+      <p>{{msg}}</p>
+    </template>
+
 
 @element core-pubnub-subscribe
 @blurb Element that subscribes to PubNub channels.
@@ -394,9 +400,8 @@ Place it inside of a `<core-pubnub>` element.
       </core-pubnub-publish>
     </core-pubnub>
 
-
 @element core-pubnub-publish
-@blurb Element that published to a PubNub channel.
+@blurb Element that publishes to a PubNub channel.
 @status alpha
 @homepage 
 -->
@@ -486,10 +491,87 @@ Place it inside of a `<core-pubnub>` element.
   </script>
 </polymer-element>
 
+<!--
+This element fetches historical messages of a channel.
+
+PubNub Storage/Playback Service provides real-time access to an unlimited history for all messages published to PubNub. Stored messages are replicated across multiple availability zones in several geographical data center locations. Stored messages can be encrypted with AES-256 message encryption ensuring that they are not readable while stored on PubNub's network.
+
+### Basic Usage:
+
+    <core-pubnub publish_key="demo" subscribe_key="demo">
+      <core-pubnub-history channel="testChannel" history="{{history}}">
+      </core-pubnub-history>
+    </core-pubnub>
+
+    <h3>testChannel History</h3>
+
+    <template repeat="{{hist in history}}">
+      <p>{{hist}}</p>
+    </template>
+
+@element core-pubnub-history
+@blurb Element fetches historical messages of a channel.
+@status alpha
+@homepage 
+-->
 <polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start history pubnub done">
   <script>
     Polymer('core-pubnub-history', {
-      count: 100,
+      /**
+        * The `channel` attribute specifies the channel to return history messages from.
+        *
+        * **REQUIRED**
+        *
+        * @attribute channel
+        * @type String
+        * @default ''
+        */
+      /**
+        * The `count` attribute specifies the number of historical messages to return.
+        *
+        * **OPTIONAL**
+        *
+        * @attribute count
+        * @type Number
+        * @default 100 
+        */
+      /**
+        * The `end` attribute specifies the time token delimiting the end of time slice (inclusive) to pull messages from.
+        *
+        * **OPTIONAL**
+        *
+        * @attribute end
+        * @type Number
+        * @default undefined 
+        */
+      /**
+        * The `reverse` attribute, when set to `true`, will traverse the time line in reverse starting with the newest message first. If both `start` and `end` are provided, `reverse` is ignored and messages are returned starting with the newest message.
+        *
+        * **OPTIONAL**
+        *
+        * @attribute reverse
+        * @type Boolean
+        * @default false
+        */
+      /**
+        * The `start` attribute specifies the time token delimiting the start of time slice (exclusive) to pull messages from.
+        *
+        * **OPTIONAL**
+        *
+        * @attribute start
+        * @type Number
+        * @default undefined
+        */
+      /**
+        * The `success` event is fired on successful retrieval of history.
+        *
+        * @event success
+        */
+      /**
+        * The `error` event is fired on an unsuccessful retrieval of history.
+        *
+        * @event error
+        */
       domReady: function() {
         var self = this;
         var onReady = function(e) {
@@ -509,7 +591,7 @@ Place it inside of a `<core-pubnub>` element.
               self.history = m;
               // console.log("HISTORY IS IN THE MAKING!");
               // console.log(m);
-              self.fire('callback', m);
+              self.fire('success', m);
               ready();
             },
             error: function(m) {
