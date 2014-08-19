@@ -3,9 +3,9 @@
 <!--
 Element that initializes PubNub.
 
-##### Example
+### Example
 
-    <core-pubnub publish_key="demo" subscribe_key="demo" uuid="alice"></core-pubnub>
+    <core-pubnub publish_key="demo" subscribe_key="demo"></core-pubnub>
 
 @element core-pubnub
 @blurb Element providing encapsulation of the PubNub JS SDK.
@@ -158,8 +158,22 @@ Element that initializes PubNub.
 </polymer-element>
 
 <!--
+Element that subscribes to PubNub channels.
+
+Place it inside of a `<core-pubnub>` element.
+
+All messages received while subscribed to the channel will be pushed into the messages list attribute.
+
+### Example
+
+    <core-pubnub publish_key="demo" subscribe_key="demo">
+      <core-pubnub-subscribe channel="testChannel" messages={{messages}}>
+      </core-pubnub-subscribe>
+    </core-pubnub>
+
+
 @element core-pubnub-subscribe
-@blurb Element providing encapsulation of the PubNub JS SDK.
+@blurb Element that subscribes to PubNub channels.
 @status alpha
 @homepage 
 -->
