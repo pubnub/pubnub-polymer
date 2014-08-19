@@ -234,6 +234,13 @@
             channel: this.channel    
           });
         }
+      },
+      detached: function() {
+        if (subscribe) {
+          this.pubnub.unsubscribe({
+            channel: this.channel
+          });
+        }
       }
     });
   </script>
