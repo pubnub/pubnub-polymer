@@ -154,7 +154,7 @@ All messages received while subscribed to the channel will be pushed into the me
 ### Example
 
     <core-pubnub publish_key="demo" subscribe_key="demo">
-      <core-pubnub-subscribe channel="testChannel" messages={{messages}}>
+      <core-pubnub-subscribe channel="testChannel" messages="{{messages}}">
       </core-pubnub-subscribe>
     </core-pubnub>
 
@@ -293,7 +293,7 @@ All messages received while subscribed to the channel will be pushed into the me
               // console.log(m);
               self.messages.push(m);
               //console.log(messages);
-              self.fire('callback', m);
+              self.fire('message', m);
             },
             presence: function(m) {
               // Fire Presence Event.
@@ -345,9 +345,26 @@ All messages received while subscribed to the channel will be pushed into the me
       }
     });
   </script>
-
 </polymer-element>
 
+<!--
+Element that publishes to a PubNub channel.
+
+Place it inside of a `<core-pubnub>` element.
+
+### Example
+
+    <core-pubnub publish_key="demo" subscribe_key="demo">
+      <core-pubnub-publish channel="testChannel" message="Polymer Rules!">
+      </core-pubnub-publish>
+    </core-pubnub>
+
+
+@element core-pubnub-publish
+@blurb Element that published to a PubNub channel.
+@status alpha
+@homepage 
+-->
 <polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key pubnub done">
   <script>
     Polymer('core-pubnub-publish', {
