@@ -6,14 +6,19 @@
 
   <script src="../platform/platform.js"></script>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="import" href="pubnub-element.html">
   <link rel="import" href="demo-element.html"> 
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body >
-  <core-pubnub publish_key="demo" subscribe_key="demo" id="core" uuid="hi">
+  <core-pubnub publish_key="pub-c-0236c7bb-a942-4ffd-93fe-c60380d89611"
+               subscribe_key="sub-c-b969ffd2-2707-11e4-a114-02ee2ddab7fe" 
+               origin="pubsub.pubnub.com" id="core" uuid="">
     <core-pubnub-subscribe channel="pubnubPolymerDemo" id="sub"> 
-      <core-pubnub-publish channel="pubnubPolymerDemo" id="pub" message="first">
-        <core-pubnub-publish channel="pubnubPolymerDemo" id="pub" message="second">
+      <core-pubnub-publish channel="pubnubPolymerDemo" id="pub" message="Published after...">
+        <core-pubnub-publish channel="pubnubPolymerDemo" id="pub2" message="connecting!">
+        <core-pubnub-history channel="pubnubPolymerDemo" id="hist" />
         </core-pubnub-publish>
       </core-pubnub-publish>
     </core-pubnub-subscribe>
@@ -34,11 +39,19 @@
   </div>
     <div class="col-md-4">
       <h2> <a href="./#core-pubnub-publish" >&lt;core-pubnub-publish&gt; </a> </h2>
+        <div class="form-group">
+          <label for="exampleInputEmail1"><h2>Publish a message!</h2></label>
+          <input type="text" class="form-control" id="newMsg">
+        </div>
+        <button id="pubButton" type="submit" class="btn btn-primary">Publish</button>
     </div>
   </div>
   <hr>
   <div class="row">
-    <div class="col-md-4">History</div>
+    <div class="col-md-4">
+      <h2> <a href="./#core-pubnub-history">&lt;core-pubnub-history&gt; </a> </h2>
+      <list-data heading="History Messages" id="histList"></list-data>
+    </div>
     <div class="col-md-4">Here Now</div>
     <div class="col-md-4">Where Now</div>
 </div>
@@ -49,6 +62,15 @@ $("#sub")[0].addEventListener('callback', function(e) {
 });
 $("#sub")[0].addEventListener('presence', function(e) {
     $("#presList")[0].data = $("#sub")[0].presence.map(function(j) {return JSON.stringify(j, null, 2)});
+});
+$("#pubButton").click(function() {
+  $("#pub")[0].message =  $("#newMsg").val();
+  $("#pub")[0].publish();
+});
+$("#newMsg").keyup(function(e) {
+  if (e.which === 13) {
+    $("#pubButton").click();
+  }
 });
 </script>
 </body>
