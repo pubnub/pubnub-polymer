@@ -1,0 +1,7 @@
+{
+  "name": "pubnub-element#gh-pages",
+  "private": true,
+  "dependencies": {
+    "seed-element": "lw7360/pubnub-element#master"
+  }
+}

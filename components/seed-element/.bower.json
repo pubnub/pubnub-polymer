@@ -1,0 +1,28 @@
+{
+  "name": "seed-element",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "description": "Element providing solution to no problem in particular.",
+  "keywords": "seed, polymer, web-components",
+  "main": "seed-element.html",
+  "license": "MIT",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.4",
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3"
+  },
+  "_release": "0f00fb9256",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0f00fb9256b16fac7160c29d50492c0040dc054b"
+  },
+  "_source": "git://github.com/lw7360/pubnub-element.git",
+  "_target": "master",
+  "_originalSource": "lw7360/pubnub-element",
+  "_direct": true
+}
