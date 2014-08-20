@@ -1,14 +1,14 @@
 {
-  "name": "seed-element",
-  "version": "0.0.0",
+  "name": "pubnub-element",
+  "version": "0.0.1",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "Larry Wu <lw7360@gmail.com>"
   ],
-  "description": "Element providing solution to no problem in particular.",
-  "keywords": "seed, polymer, web-components",
-  "main": "seed-element.html",
+  "description": "A Polymer Element for PubNub.",
+  "keywords": "pubnub",
+  "main": "pubnub-element.html",
   "license": "MIT",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/pubnub/pubnub-polymer",
   "ignore": [
     "**/.*"
   ],
