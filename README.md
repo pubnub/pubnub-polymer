@@ -1,8 +1,9 @@
 pubnub-element
 ================
 
-See the [component page](http://polymerlabs.github.io/seed-element) for more information.
+See the [component page](http://pubnub.github.io/pubnub-polymer) for more information.
 
-## Getting Started
+## Demo
 
-We've put together a [guide to seed-element](http://www.polymer-project.org/docs/start/reusableelements.html) to help get you rolling.
+Checkout the [Demo](http://pubnub.github.io/pubnub-polymer/components/pubnub-element/demo.html)!
+
