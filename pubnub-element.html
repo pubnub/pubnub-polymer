@@ -723,6 +723,27 @@ This element obtains information about the current state of a channel, including
   </script>
 </polymer-element>
 
+<!--
+This element allows you to obtain information about the current list of channels to which a `uuid` is subscribed to.
+
+### Basic Usage:
+
+    <core-pubnub publish_key="demo" subscribe_key="demo">
+      <core-pubnub-where-now uuid="Alice" presence="{{presence}}">
+      </core-pubnub-history>
+    </core-pubnub>
+
+    <h3>Alice's Presence</h3>
+
+    <template repeat="{{pres in presence}}">
+      <p>{{pres}}</p>
+    </template>
+
+@element core-pubnub-where-now
+@blurb Element allows you to obtain information about the current list of channels to which a `uuid` is subscribed to.
+@status alpha
+@homepage 
+-->
 <polymer-element name="core-pubnub-where-now" hidden attributes="uuid presence pubnub done">
   <script>
     Polymer('core-pubnub-where-now', {
