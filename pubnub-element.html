@@ -781,6 +781,14 @@ This element allows you to obtain information about the current list of channels
   <script>
     Polymer('core-pubnub-where-now', {
       /**
+        * The `presence` attribute contains the results of the `where-now` request.
+        *
+        * @attribute presence
+        * @type Array
+        * @default []
+        */
+
+      /**
         * The `uuid` specifies the `uuid` to return channel list for. Default is the uuid of the <core-pubnub> element this element is nested in.
         *
         * **OPTIONAL**
