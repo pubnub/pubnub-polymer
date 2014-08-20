@@ -747,8 +747,30 @@ This element allows you to obtain information about the current list of channels
 <polymer-element name="core-pubnub-where-now" hidden attributes="uuid presence pubnub done">
   <script>
     Polymer('core-pubnub-where-now', {
-        presence: [],      
-        domReady: function() {
+      /**
+        * The `uuid` specifies the `uuid` to return channel list for. Default is the uuid of the <core-pubnub> element this element is nested in.
+        *
+        * **OPTIONAL**
+        * 
+        * @attribute uuid
+        * @type String
+        * @default undefined
+        */
+      
+      /**
+        * The `error` event is fired on errors.
+        *
+        * @event error
+        */
+
+      /**
+        * The `presence` event is fired on receiving a list of channels.
+        *
+        * @event presence
+        */
+
+      presence: [],      
+      domReady: function() {
         var self = this;
         var onReady = function(e) {
           self.pubnub = e.detail;
@@ -761,7 +783,7 @@ This element allows you to obtain information about the current list of channels
             callback: function(m) {
               // console.log(m);
               self.presence = m.channels;
-              self.fire('callback', m);
+              self.fire('presence', m);
               ready();
             },
             error: function(m) {
