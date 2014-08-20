@@ -661,6 +661,14 @@ This element obtains information about the current state of a channel, including
   <script>
     Polymer('core-pubnub-here-now', {
       /**
+        * The `presence` attribute contains the results of the `here-now` request.
+        *
+        * @attribute presence
+        * @type Array
+        * @default []
+        */
+
+      /**
         * The `channel` attribute sets the channel name to return occupancy results. If `channel` is not provided, `here_now` will return data for all channels.
         *
         * **OPTIONAL**
