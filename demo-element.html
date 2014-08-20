@@ -2,59 +2,24 @@
 <link rel="import" href="pubnub-element.html">
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 
-<polymer-element name="list-data">
-<template>
-<core-pubnub publish_key="pub-c-0236c7bb-a942-4ffd-93fe-c60380d89611" subscribe_key="sub-c-b969ffd2-2707-11e4-a114-02ee2ddab7fe" uuid="time of my pie">
+<polymer-element name="list-data" attributes="heading {{data}}">
+  <template>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <div class="panel panel-default">
+      <div class="panel-heading">{{heading}}</div>
 
-<core-pubnub-subscribe id="sub" channel="what" messages="{{msgs}}" presence="{{presents}}" subscribe="true">
-<core-pubnub-publish channel="what" message="1">
-<core-pubnub-publish channel="what" message="2">
-<core-pubnub-publish channel="what" message="3">
-<core-pubnub-publish id="pub" channel="what" message="nesting works">
-</core-pubnub-publish>
-</core-pubnub-publish>
-</core-pubnub-publish>
-</core-pubnub-publish>
-</core-pubnub-subscribe>
-
-
-<core-pubnub-history channel="what" history="{{herstory}}">
-</core-pubnub-history>
-
-<core-pubnub-here-now channel="what" presence="{{datum}}">
-</core-pubnub-here-now>
-
-<core-pubnub-where-now presence="{{where}}">
-</core-pubnub-where-now>
-
-<!--
-<core-pubnub-replay source="what" destination="what">
-</core-pubnub-replay>
--->
-
-</core-pubnub>
-  <h1>MESSAGES</h1> <hr>
-  <template repeat="{{msg in msgs}}">
-  <p>{{msg}}</p>
+      <ul class="list-group">
+      <template repeat="{{ datum in data }}">
+        <li class="list-group-item">{{datum}}</li>
+      </template>
+      </ul>
+    </div>
   </template>
-  <h1>PRESENCE</h1> <hr>
-  <template repeat="{{pres in presents}}">
-  <p>action: {{pres["action"]}}. uuid: {{pres["uuid"]}}. timestamp: {{pres["timestamp"]}}. occupancy: {{pres["occupancy"]}}.<p>
-  </template>
-  <h1>HISTORY</h1> <hr>
-  <template repeat="{{her in herstory}}">
-  <p>{{her}}</p>
-  </template>
-  <h1>HERE NOW</h1> <hr>
-  <template repeat="{{dat in datum}}">
-  <p>{{dat}}</p>
-  </template>
-  <h1>WHERE NOW</h1> <hr>
-  <template repeat="{{wh in where}}">
-  <p>{{wh}}</p>
-  </template>
-</template>
   <script>
-Polymer({});
+Polymer('list-data', {
+  ready: function() {
+    this.data = [];
+  }
+});
   </script>
 </polymer-element>

@@ -327,7 +327,7 @@ Place it inside of a `<core-pubnub>` element.
               // console.log("message");
               // console.log(m);
               self.messages.push(m);
-              //console.log(messages);
+              // console.log(self.messages);
               self.fire('callback', m);
             },
             presence: function(m) {

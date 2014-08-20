@@ -7,23 +7,17 @@
   <script src="../platform/platform.js"></script>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="import" href="pubnub-element.html">
-  <link rel="import" href="old-demo-element.html"> 
-
-
+  <link rel="import" href="demo-element.html"> 
 </head>
 <body >
-<!--  
-  <core-pubnub publish_key="demo" subscribe_key="demo" id="core">
-  <core-pubnub-subscribe channel="what" id="sub">
-      <core-pubnub-publish channel="what" id="pub" message='["wat", "DAH" ]'>
-        <core-pubnub-publish channel="what" id="pub" message="lol">
+  <core-pubnub publish_key="demo" subscribe_key="demo" id="core" uuid="hi">
+    <core-pubnub-subscribe channel="pubnubPolymerDemo" id="sub"> 
+      <core-pubnub-publish channel="pubnubPolymerDemo" id="pub" message="first">
+        <core-pubnub-publish channel="pubnubPolymerDemo" id="pub" message="second">
         </core-pubnub-publish>
       </core-pubnub-publish>
     </core-pubnub-subscribe>
-    <core-pubnub-history channel="what" id="hist">
-    </core-pubnub-history>
   </core-pubnub>
--->
 <div class="container">
 <h1>PubNub Polymer Demo</h1><hr>
 <div class="row">
@@ -31,25 +25,11 @@
       <h2> <a href="./#core-pubnub-subscribe">&lt;core-pubnub-subscribe&gt; </a> </h2>
     <div class="col-md-6">
       <h2>Messages</h2>
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">Panel heading</div>
-  <div class="panel-body">
-    <p>...</p>
-  </div>
-
-  <!-- List group -->
-  <ul class="list-group">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-</div>
+      <list-data heading="Received Messages" id="msgsList"></list-data>
     </div>
     <div class="col-md-6">
       <h2>Presence</h2>
+      <list-data heading="Presence Messages" id="presList"></list-data>
     </div>
   </div>
     <div class="col-md-4">
@@ -62,5 +42,14 @@
     <div class="col-md-4">Here Now</div>
     <div class="col-md-4">Where Now</div>
 </div>
+
+<script>
+$("#sub")[0].addEventListener('callback', function(e) {
+    $("#msgsList")[0].data = $("#sub")[0].messages;
+});
+$("#sub")[0].addEventListener('presence', function(e) {
+    $("#presList")[0].data = $("#sub")[0].presence.map(function(j) {return JSON.stringify(j, null, 2)});
+});
+</script>
 </body>
 </html>
