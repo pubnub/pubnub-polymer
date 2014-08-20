@@ -405,7 +405,7 @@ Place it inside of a `<core-pubnub>` element.
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key pubnub done">
+<polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key publish pubnub done">
   <script>
     Polymer('core-pubnub-publish', {
       /**
@@ -426,6 +426,13 @@ Place it inside of a `<core-pubnub>` element.
         * @attribute message
         * @type Anything
         * @default ''
+        */
+
+      /**
+        * The `publish` method causes the `message` to be published again
+        *
+        * @method publish
+        * @return {Object} Returns undefined.
         */
 
       /**
