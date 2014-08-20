@@ -18,9 +18,11 @@
     <core-pubnub-subscribe channel="pubnubPolymerDemo" id="sub"> 
       <core-pubnub-publish channel="pubnubPolymerDemo" id="pub" message="Published after...">
         <core-pubnub-publish channel="pubnubPolymerDemo" id="pub2" message="connecting!">
-        <core-pubnub-history channel="pubnubPolymerDemo" id="hist" />
+        <core-pubnub-history channel="pubnubPolymerDemo" id="hist" ></core-pubnub-history>
         </core-pubnub-publish>
       </core-pubnub-publish>
+      <core-pubnub-here-now channel="pubnubPolymerDemo" id="here"></core-pubnub-here-now>
+      <core-pubnub-where-now id="where" uuid=""></core-pubnub-where-now>
     </core-pubnub-subscribe>
   </core-pubnub>
 <div class="container">
@@ -40,7 +42,7 @@
     <div class="col-md-4">
       <h2> <a href="./#core-pubnub-publish" >&lt;core-pubnub-publish&gt; </a> </h2>
         <div class="form-group">
-          <label for="exampleInputEmail1"><h2>Publish a message!</h2></label>
+          <label><h2>Publish a message!</h2></label>
           <input type="text" class="form-control" id="newMsg">
         </div>
         <button id="pubButton" type="submit" class="btn btn-primary">Publish</button>
@@ -49,11 +51,21 @@
   <hr>
   <div class="row">
     <div class="col-md-4">
-      <h2> <a href="./#core-pubnub-history">&lt;core-pubnub-history&gt; </a> </h2>
-      <list-data heading="History Messages" id="histList"></list-data>
+      <h2> <a href="./#core-pubnub-history">&lt;core-pubnub-history&gt; </a>
+      </h2>
+      <!-- <button id="histButton" type="submit" class="btn btn-default"><i class="fa fa-refresh"></i></button> <br><br> -->
+      <list-data heading="Last 100 Messages" id="histList"></list-data>
     </div>
-    <div class="col-md-4">Here Now</div>
-    <div class="col-md-4">Where Now</div>
+    <div class="col-md-4">
+      <h2> <a href="./#core-pubnub-here-now">&lt;core-pubnub-here-now&gt; </a> </h2>
+      <!--<button id="hereButton" type="submit" class="btn btn-default"><i class="fa fa-refresh"></i></button> <br><br>-->
+      <list-data heading="Current Users" id="hereList"></list-data>
+    </div>
+    <div class="col-md-4">
+      <h2> <a href="./#core-pubnub-where-now">&lt;core-pubnub-where-now&gt; </a> </h2>
+      <!--<button id="whereButton" type="submit" class="btn btn-default"><i class="fa fa-refresh"></i></button> <br><br>-->
+      <list-data heading="Where am I?" id="whereList"></list-data>
+    </div>
 </div>
 
 <script>
@@ -62,6 +74,15 @@ $("#sub")[0].addEventListener('callback', function(e) {
 });
 $("#sub")[0].addEventListener('presence', function(e) {
     $("#presList")[0].data = $("#sub")[0].presence.map(function(j) {return JSON.stringify(j, null, 2)});
+});
+$("#hist")[0].addEventListener('success', function(e) {
+    $("#histList")[0].data = e.detail[0];
+});
+$("#here")[0].addEventListener('presence', function(e) {
+    $("#hereList")[0].data = e.detail.uuids;
+});
+$("#where")[0].addEventListener('presence', function(e) {
+    $("#whereList")[0].data = e.detail.channels;
 });
 $("#pubButton").click(function() {
   $("#pub")[0].message =  $("#newMsg").val();
