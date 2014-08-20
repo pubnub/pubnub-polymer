@@ -5,15 +5,19 @@
     "Larry Wu <lw7360@gmail.com>"
   ],
   "description": "A Polymer Element for PubNub.",
-  "keywords": "pubnub",
+  "keywords": ["PubNub"],
   "main": "pubnub-element.html",
   "license": "MIT",
   "homepage": "https://github.com/pubnub/pubnub-polymer",
   "ignore": [
-    "**/.*"
+    "**/.*",
+    'node_modules',
+    'bower_components',
+    'test',
+    'tests'
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.3.4",
-    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3"
+    "polymer": "Polymer/polymer",
+    "platform": "Polymer/platform"
   }
 }
