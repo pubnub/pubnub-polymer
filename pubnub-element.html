@@ -197,6 +197,15 @@ Place it inside of a `<core-pubnub>` element.
   <script>
     Polymer('core-pubnub-subscribe', {
       /**
+        * The `messages` attribute will contain an array of all messages received since subscribing to the channel. 
+        * New Messages are appeneded to the end of the array.
+        *
+        * @attribute messages
+        * @type Array
+        * @default []
+        */
+
+      /**
         * The `channel` attribute specifies the channel to subscribe to. It is possible to specify multiple channels as an array.
         * 
         * **REQUIRED**
@@ -480,6 +489,7 @@ Place it inside of a `<core-pubnub>` element.
         }
       },
       publish: function() {
+        var self = this;
         this.pubnub.publish({
           channel: this.channel,
           message: this.message,
