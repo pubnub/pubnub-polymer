@@ -153,14 +153,44 @@ This element initializes the PubNub client. This element must be created before 
             windowing: this.windowing,
             jsonp: this.jsonp
           }
-          //console.log("CORE READY");
+          // console.log("CORE READY");
           this.pubnub = PUBNUB.init(settings);
           this.fire('ready', this.pubnub);
           this.done = true;
       },
       auth_keyChanged: function(oldValue, newValue) {
-        this.pubnub.auth(newValue);
-      }
+        this.domReady();
+      },
+      publish_keyChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      subscribe_keyChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      uuidChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      cipher_keyChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      noleaveChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      keepaliveChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      secret_keyChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      sslChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      windowingChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
+      jsonpChanged: function(oldValue, newValue) {
+        this.domReady();
+      },
     });
   </script>
 </polymer-element>
