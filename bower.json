@@ -5,7 +5,7 @@
     "Larry Wu <lw7360@gmail.com>"
   ],
   "description": "A Polymer Element for PubNub.",
-  "keywords": ["PubNub"],
+  "keywords": ["PubNub", "Polymer", "web-components"],
   "main": "pubnub-element.html",
   "license": "MIT",
   "homepage": "https://github.com/pubnub/pubnub-polymer",
