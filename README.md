@@ -10,3 +10,9 @@ See the [component page](http://pubnub.github.io/pubnub-polymer) for more inform
 
 Checkout the [Demo](http://pubnub.github.io/pubnub-polymer/components/pubnub-element/demo.html)!
 
+## Usage Examples
+
+Kitteh Anonymous
+- [Web App] (http://pubnub.github.io/paper-chat)
+- [Source Code] (http://github.com/pubnub/paper-chat)
+
