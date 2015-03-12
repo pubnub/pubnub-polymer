@@ -1,5 +1,8 @@
+
 pubnub-element
 ================
+
+![pubnub-element](http://www.pubnub.com/blog/wp-content/uploads/2015/01/pubnub-polymer.png "PubNub x Polymer")
 
 See the [component page](http://pubnub.github.io/pubnub-polymer) for more information.
 
