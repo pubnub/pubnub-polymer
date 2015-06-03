@@ -17,9 +17,9 @@ This element initializes the PubNub client. This element must be created before 
 
   <script>
     Polymer({
-	   
-	  is: 'core-pubnub', 
-	  
+     
+    is: 'core-pubnub', 
+    
       /**
         * The `publish_key` attribute sets the publish_key that will be used when publishing messages to a channel.
         * 
@@ -29,8 +29,7 @@ This element initializes the PubNub client. This element must be created before 
         * @type String
         * @default ''
         */
-      publish_key: '',
-
+      
       /**
         * The `subscribe_key` attribute sets the subscribe_key that will be used when subscribing to a channel.
         * 
@@ -40,7 +39,6 @@ This element initializes the PubNub client. This element must be created before 
         * @type String
         * @default ''
         */
-      subscribe_key: '',
 
       /**
         * The `auth_key` attribute sets the auth_key to be used for determining User-Level Access Manager permissions.
@@ -128,7 +126,7 @@ This element initializes the PubNub client. This element must be created before 
         * **OPTIONAL**
         *
         * @attribute windowing
-        * @type number
+        * @type Number
         * @default undefined
         */
 
@@ -138,10 +136,38 @@ This element initializes the PubNub client. This element must be created before 
         * **OPTIONAL**
        *
        * @attribute jsonp
-       * @type boolean
+       * @type Boolean
        * @default undefined
        */
-
+    properties: {
+      publish_key: {
+        type : String,
+        value: ''
+      },
+      subscribe_key: {
+        type : String,
+        value: ''
+      },
+      auth_key: String,
+      origin: String,
+      uuid: String,
+      cipher_key: String,
+      noleave: {
+        type : Boolean,
+        value: false
+      },
+      keepalive: {
+        type : Number,
+        value: 60
+      },
+      secret_key: String,
+      ssl : {
+        type : Boolean,
+        value: false
+      },
+      windwoing: Number,
+      jsonp: Boolean
+    },
       ready: function() {
           var settings = {
             publish_key: this.publish_key,
@@ -231,9 +257,9 @@ Place it inside of a `<core-pubnub>` element.
 <polymer-element name="core-pubnub-subscribe" hidden attributes="channel timetoken windowing heartbeat state messages presence subscribe pubnub done">
   <script>
     Polymer({
-	   
-		is: 'core-pubnub-subscribe',
-	    
+     
+    is: 'core-pubnub-subscribe',
+      
       /**
         * The `messages` attribute will contain an array of all messages received since subscribing to the channel. 
         * New Messages are appeneded to the end of the array.
@@ -340,27 +366,27 @@ Place it inside of a `<core-pubnub>` element.
         *
         * @event reconnect
         */
-	  properties: {
-		channel: {
-			type : Object,
-			value: ''
-		},
-		messages: {
-			type : Array,
-			value: []
-		},
-		timetoken: Number,
-		windowing: {
-			type : Number,
-			value: 10
-		},
-		heartbeat: {
-			type : Number,
-			value: 320
-		},
-		state: Object,
-		restore: Boolean
-	  },
+    properties: {
+    channel: {
+      type : Object,
+      value: ''
+    },
+    messages: {
+      type : Array,
+      value: []
+    },
+    timetoken: Number,
+    windowing: {
+      type : Number,
+      value: 10
+    },
+    heartbeat: {
+      type : Number,
+      value: 320
+    },
+    state: Object,
+    restore: Boolean
+    },
       subscribe: true,
       ready: function() {
         var self = this;
@@ -390,10 +416,10 @@ Place it inside of a `<core-pubnub>` element.
             },
             callback: function(m) {
               // Fire Message Event.
-              console.log("message");
-              console.log(m);
+              // console.log("message");
+              // console.log(m);
               self.messages.push(m);
-              console.log(self.messages);
+              // console.log(self.messages);
               self.fire('callback', m);
             },
             presence: function(m) {
@@ -474,9 +500,9 @@ Place it inside of a `<core-pubnub>` element.
 <polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key publish pubnub done">
   <script>
     Polymer({
-	    
-	  is: 'core-pubnub-publish',
-	    
+      
+    is: 'core-pubnub-publish',
+      
       /**
         * The `channel` attribute specifies the channel name to publish messages to. 
         * 
@@ -517,17 +543,16 @@ Place it inside of a `<core-pubnub>` element.
         */
         
       properties: {
-		  channel: {
-			  type : String,
-			  value: ''
-		  },
-		  message: {
-			  type : Object,
-			  value: ''
-		  },
-	  },
+      channel: {
+        type : String,
+        value: ''
+      },
+      message: {
+        type : Object,
+        value: ''
+      },
+    },
       ready: function() {
-	      alert("Chan: " + this.channel);
         var self = this;
         var onReady = function(e) {
           // console.log(e);
@@ -605,9 +630,9 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
 <polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start history pubnub done">
   <script>
     Polymer({
-	    
-	  is: 'core-pubnub-history',
-	    
+      
+    is: 'core-pubnub-history',
+      
       /**
         * The `history` attribute contains the result of the `history` call.
         *
@@ -678,26 +703,26 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
         * @event error
         */
 
-		properties : {
-			channel: {
-				type : String,
-				value: ""
-			}, 
-			count: {
-				type : Number,
-				value: 100
-			},
-			end: Number, 
-			reverse  : {
-				type : Boolean,
-				value: false
-			}, 
-			start: Number, 
-			history: {
-				type : Array,
-				value: []
-			},
-		},
+    properties : {
+      channel: {
+        type : String,
+        value: ""
+      }, 
+      count: {
+        type : Number,
+        value: 100
+      },
+      end: Number, 
+      reverse  : {
+        type : Boolean,
+        value: false
+      }, 
+      start: Number, 
+      history: {
+        type : Array,
+        value: []
+      },
+    },
 
       ready: function() {
         var self = this;
@@ -763,9 +788,9 @@ This element obtains information about the current state of a channel, including
 <polymer-element name="core-pubnub-here-now" hidden attributes="channel state uuids presence pubnub done">
   <script>
     Polymer({
-	    
-	  is: 'core-pubnub-here-now',
-	  	
+      
+    is: 'core-pubnub-here-now',
+      
       /**
         * The `presence` attribute contains the results of the `here-now` request.
         *
@@ -816,20 +841,20 @@ This element obtains information about the current state of a channel, including
         * @event presence
         */
       properties: {
-		  presence: {
-			  type : Array,
-			  value: [] 
-		  },
-		  channel: String,
-		  state: {
-			  type : Boolean,
-			  value: false
-		  },
-		  uuids: {
-			  type : Boolean,
-			  value: true
-		  }
-	  },
+      presence: {
+        type : Array,
+        value: [] 
+      },
+      channel: String,
+      state: {
+        type : Boolean,
+        value: false
+      },
+      uuids: {
+        type : Boolean,
+        value: true
+      }
+    },
       state: false,
       uuids: true,
       presence: [], 
@@ -893,9 +918,9 @@ This element allows you to obtain information about the current list of channels
 <polymer-element name="core-pubnub-where-now" hidden attributes="uuid presence pubnub done">
   <script>
     Polymer({
-	    
-	  is: 'core-pubnub-where-now',
-	    
+      
+    is: 'core-pubnub-where-now',
+      
       /**
         * The `presence` attribute contains the results of the `where-now` request.
         *
@@ -926,13 +951,13 @@ This element allows you to obtain information about the current list of channels
         * @event presence
         */
 
-	  properties: {
-		  presence: {
-			  type : Array,
-			  value: []
-		  },
-		  uuid: String
-	  },     
+    properties: {
+      presence: {
+        type : Array,
+        value: []
+      },
+      uuid: String
+    },     
       ready: function() {
         var self = this;
         var onReady = function(e) {
@@ -971,9 +996,9 @@ This element allows you to obtain information about the current list of channels
 <polymer-element name="core-pubnub-replay" hidden attributes="source destination end limit reverse start stop pubnub done">
   <script>
     Polymer({
-	    
-	  is: 'core-pubnub-replay',
-	    
+      
+    is: 'core-pubnub-replay',
+      
       ready: function() {
         var self = this;
         var onReady = function(e) {
