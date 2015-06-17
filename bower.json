@@ -1,6 +1,6 @@
 {
     "name": "pubnub-element",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "authors": [
     	"PubNub",
         "Larry Wu <lw7360@gmail.com>",
