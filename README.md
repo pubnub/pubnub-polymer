@@ -12,7 +12,9 @@ Checkout the [Demo](http://pubnub.github.io/pubnub-polymer/components/pubnub-ele
 
 ## Usage Examples
 
-Kitteh Anonymous
+### Kitteh Anonymous 
+*Using Polymer 0.5.x and pubnub-element 3.x. Not compatble with Polymer 1.x and pubnub-element 4.x!*
+
 - [Web App] (http://pubnub.github.io/paper-chat)
 - [Source Code] (http://github.com/pubnub/paper-chat)
 
