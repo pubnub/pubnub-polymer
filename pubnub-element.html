@@ -373,6 +373,10 @@ Place it inside of a `<core-pubnub>` element.
       type : Array,
       value: []
     },
+    presence: {
+      type : Array,
+      value: []
+    },
     timetoken: Number,
     windowing: {
       type : Number,
@@ -389,8 +393,6 @@ Place it inside of a `<core-pubnub>` element.
       ready: function() {
         var self = this;
         this.sub = function() {
-          self.messages = [];
-          self.presence = [];
           self.pubnub.subscribe({
             channel: self.channel,
             timetoken: self.timetoken,
@@ -416,7 +418,8 @@ Place it inside of a `<core-pubnub>` element.
               // Fire Message Event.
               // console.log("message");
               // console.log(m);
-              self.messages.push(m);
+              //self.messages.push(m);  // Deprecated
+              self.push('messages', m); // Polymer method, will trigger observers
               // console.log(self.messages);
               self.fire('callback', m);
             },
@@ -424,7 +427,8 @@ Place it inside of a `<core-pubnub>` element.
               // Fire Presence Event.
               // console.log("presence");
               // console.log(m);
-              self.presence.push(m);
+              //self.presence.push(m);  // Deprecated
+              self.push('presence', m); // Polymer method, will trigger observers
               self.fire('presence', m);
             },
             reconnect: function(m) {
