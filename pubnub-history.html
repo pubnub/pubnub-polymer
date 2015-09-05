@@ -102,7 +102,6 @@ Stored messages can be encrypted with AES-256 message encryption ensuring that t
 
             callback: function(m) {
               self.history = m;
-              // TODO: Use of the history API requires the Storage & Playback, report a message if this is not enabled for the sub key.
               self.fire('success', m);
 
               ready();
