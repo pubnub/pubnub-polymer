@@ -1,0 +1,28 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<dom-module id="demo-element">
+  <template>
+    <pubnub-element publish-key="pub-c-c6f75f20-d425-4fb3-b531-6367031b60ce" subscribe-key="sub-c-e915b05a-4ccc-11e5-81b5-02ee2ddab7fe" uuid="123">
+      <pubnub-subscribe channel="demo" messages="{{messages}}" on-callback="_subscribeCallback"></pubnub-subscribe>
+      <pubnub-publish channel="demo" message="{&quot;text&quot;: &quot;Polymer rules!&quot;}"></pubnub-publish>
+    </pubnub-element>
+
+    <template is="dom-repeat" items="{{messages}}">
+      <li>#<span>{{index}}</span>: <span>{{item.text}}</span></li>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'demo-element',
+
+      properties: {
+        messages: { type: Array, value: [], notify: true }
+      },
+
+      _subscribeCallback: function(evt, msg) {
+        console.debug('New message:', msg);
+      }
+    });
+  </script>
+</dom-module>

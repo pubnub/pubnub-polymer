@@ -1,0 +1,192 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`<pubnub-subscribe></pubnub-subscribe>` causes the client to create an open TCP socket to the PubNub Real-Time Network and begin listening for messages on a specified `channel`. 
+By default a newly subscribed client will only receive messages published to the channel after the `subscribe()` call completes.
+All messages received while subscribed to the channel will be pushed into the messages list attribute.
+
+### Basic Usage:
+
+    <pubnub-element publish-key="demo" subscribe-key="demo">
+      <pubnub-subscribe channel="channelName" messages="{{messages}}"></pubnub-subscribe>
+    </pubnub-element>
+
+    <h3>channelName messages</h3>
+    <template is="dom-repeat" items="{{messages}}">
+      <p>{{item.text}}</p>
+    </template>
+
+@element pubnub-subscribe
+@blurb Element that subscribes to PubNub channels.
+@status alpha
+@homepage 
+-->
+<dom-module id="pubnub-subscribe">
+  <script>
+    Polymer({
+      is: 'pubnub-subscribe',
+
+      properties: {
+
+        /**************************************************
+        * TODO: Set to readOnly the necessary parameters  *
+        * TODO: If there is no handler attr warn the user *
+        **************************************************/
+
+        /**
+         * The `channel` attribute specifies the channel to subscribe to. It is possible to specify multiple channels as an array.
+         */
+        channel: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The `messages` attribute will contain an array of all messages received since subscribing to the channel. 
+         * New Messages are appeneded to the end of the array.
+         */
+        messages: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The `presence` event fires when presence events take place such as `join` or `leave`.
+         */
+        presence: {
+          type: Array,
+          value: []
+        },
+
+        /**
+         * The `windowing` attribute specifies the time interval in milliseconds that PubNub will use to optimize
+         * message delivery by bundling them into a single compressed payload. Setting a value of 1000 milliseconds
+         * will allow 100 messages in one second to be bundled and compressed for optimized delivery.
+         */
+        windowing: {
+          type: Number,
+          value: 10
+        },
+
+        /**
+         * The `heartbeat` attribute defines the period in seconds after which the client should be disconnected due to in-activity.
+         * The default is `320` seconds. For mobile devices operating in environments that commonly experience highly variable network connectivity, 
+         * setting a higher value for heartbeat would prevent the client from experiencing frequent leave/join events.
+         */
+        heartbeat: {
+          type: Number,
+          value: 320
+        },
+
+        /**
+         * The `subscribe` attribute, if set to `true` the element will subscribe to the channel and be receiving data.
+         */
+        subscribe: {
+          type: Boolean,
+          value: true,
+          observer: '_subscribeChanged'
+        },
+
+        /**
+         * The `state` attribute is a JSON object of key/value pairs with supported data-types of int, float and string. 
+         * Nesting of key/values is not permitted and key names beginning with prefix "pn" are reserved.
+         * If `state` is undefined, the current state for the specified `uuid` will be returned. 
+         * If a specified key already exists for the `uuid` it will be over-written with the new value.
+         * Key values can be deleted by setting the particular value to "null". 
+         * All `state` data for a user is deleted once the associated uuid leaves the channel.
+         */
+        state: Object,
+
+        /**
+         * The `restore` attribute, if set to `true` will automatically attempt to retrieve any missed messages when reconnecting after disconnecting.
+         */
+        restore: Boolean,
+
+        /**
+         * The `timetoken` attribute specifies the timetoken from which to start returning any available cached messages. 
+         * Message retrieval with timetoken is not guranteed and should only be considered a best-effort service.
+         */
+        timetoken: Number
+
+      },
+
+      done: false,
+
+      ready: function() {
+        var self = this;
+
+        /* TODO: Improve this */
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+
+          if (self.subscribe) {
+            self._subscribe();
+          }
+
+          self.parentNode.removeEventListener('ready', onReady);
+        };
+
+        if (this.parentNode.done) {
+          onReady({ detail: this.parentNode.pubnub });
+        } else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
+      },
+
+      _subscribe: function() {
+        var self = this;
+
+        this.pubnub.subscribe({
+          channel: self.channel,
+          timetoken: self.timetoken,
+          restore: self.restore,
+
+          connect: function (m) {
+            self.fire('connect', m);
+            self.fire('ready', self.pubnub);
+
+            self.done = true;
+          },
+
+          disconnect: function(m) {
+            self.fire('disconnect', m);
+          },
+
+          error: function(m) {
+            self.fire('error', m);
+          },
+
+          callback: function(m) {
+            self.push('messages', m);
+            self.fire('callback', m);
+          },
+
+          presence: function(m) {
+            self.push('presence', m);
+            self.fire('presence', m);
+          },
+
+          reconnect: function(m) {
+            self.fire('reconnect', m);
+          },
+
+          windowing: self.windowing,
+          heartbeat: self.heartbeat,
+          state: self.state
+        });
+      },
+
+      _subscribeChanged: function(newValue, oldValue) {
+        if (typeof oldValue === 'undefined') return;
+
+        if (newValue) {
+          this._subscribe();
+        } else {
+          this.parentNode.pubnub.unsubscribe({
+            channel: this.channel
+          });
+        }
+      }
+    });
+  </script>
+</dom-module>

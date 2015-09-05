@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+This element is used to send messages to all subscribers of a channel. 
+A successfully published message is replicated across the PubNub real-Time Network 
+and sent simultaneously to all subscribed clients on a `channel`. 
+
+## Publish Anytime:
+  You aren't required to be subscribed to a channel in order to publish to that channel.
+
+## Message Size:
+  The message argument can contain any JSON serializable data, including: Objects, Arrays, Ints and Strings. 
+  Message data should not contain special python classes or functions as these will not serialize.
+  String content can include any single-byte or multi-byte UTF-8 character.
+
+### Basic Usage:
+Place it inside of a `<pubnub-element>` element.
+
+    <pubnub-element publish-key="demo" subscribe-key="demo">
+      <pubnub-publish channel="channelName" message="Polymer rules!"></pubnub-publish>
+    </pubnub-element>
+
+@element pubnub-publish
+@blurb Element that publishes to a PubNub channel.
+@status alpha
+@homepage 
+-->
+<dom-module id="pubnub-publish">
+  <script>
+    Polymer({
+      is: 'pubnub-publish',
+
+      properties: {
+
+        /**************************************************
+        * TODO: Set to readOnly the necessary parameters  *
+        **************************************************/
+
+        /**
+         * The `channel` attribute specifies the channel name to publish messages to. 
+         */
+        channel: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The `message` attribute may be any valid JSON type including objects, arrays, strings, and numbers.
+         */
+        message: {
+          type: Object,
+          value: ''
+        }
+
+      },
+
+      ready: function() {
+        var self = this;
+
+        /* TODO: Improve this */
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+
+          self.pubnub.publish({
+            channel: self.channel,
+            message: self.message,
+            publishKey: self.publishKey,
+
+            callback: function(m) {
+              self.fire('success', m);
+              ready();
+            },
+
+            error: function(m) {
+              self.fire('error', m);
+              ready();
+            }
+          });
+
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+
+        if (this.parentNode.done) {
+          onReady({ detail: this.parentNode.pubnub });
+        } else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
+      },
+
+      publish: function() {
+        var self = this;
+
+        this.pubnub.publish({
+          channel: self.channel,
+          message: self.message,
+          publishKey: self.publishKey,
+
+          callback: function(m) {
+            self.fire('callback', m);
+            ready();
+          },
+
+          error: function(m) {
+            self.fire('error', m);
+            ready();
+          }
+        });
+      }
+    });
+  </script>
+</dom-module>
