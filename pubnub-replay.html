@@ -1,0 +1,49 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="pubnub-replay">
+  <script>
+    Polymer({
+      is: 'pubnub-replay',
+
+      done: false,
+
+      ready: function() {
+        var self = this;
+
+        /* TODO: Improve this */
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+            self.done = true;
+          };
+
+          pubnub.replay({
+            source: self.source,
+            destination: self.destination,
+            end: self.end,
+            limit: self.limit,
+            reverse: self.reverse,
+            start: self.start,
+            stop: self.stop,
+
+            callback: function(m) {
+              self.fire('callback', m);
+
+              ready();
+            }
+          });
+
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+
+        if (this.parentNode.done) {
+          onReady({ detail: this.parentNode.pubnub });
+        } else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
+      }
+    });
+  </script>
+</dom-module>
