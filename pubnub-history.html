@@ -1,0 +1,128 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+This element fetches historical messages of a channel.
+PubNub Storage/Playback Service provides real-time access to an unlimited history for all messages published to PubNub. 
+Stored messages are replicated across multiple availability zones in several geographical data center locations. 
+Stored messages can be encrypted with AES-256 message encryption ensuring that they are not readable while stored on PubNub's network.
+
+### Basic Usage:
+
+    <pubnub-element publish-key="demo" subscribe-key="demo">
+      <pubnub-history channel="channelName" history="{{history}}"></pubnub-history>
+    </pubnub-element>
+
+    <h3>channelName History</h3>
+    <template is="dom-repeat" items="{{history}}">
+      <p>{{item}}</p>
+    </template>
+
+@element pubnub-history
+@blurb Element fetches historical messages of a channel.
+@status alpha
+@homepage 
+-->
+<dom-module id="pubnub-history">
+  <script>
+    Polymer({
+      is: 'pubnub-history',
+
+      properties: {
+
+        /**************************************************
+        * TODO: Set to readOnly the necessary parameters  *
+        **************************************************/
+
+        /**
+         * The `channel` attribute specifies the channel to return history messages from.
+         */
+        channel: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The `count` attribute specifies the number of historical messages to return.
+         */
+        count: {
+          type: Number,
+          value: 100
+        },
+
+        /**
+         * The `reverse` attribute, when set to `true`, will traverse the time line in reverse starting with the newest message first. 
+         * If both `start` and `end` are provided, `reverse` is ignored and messages are returned starting with the newest message.
+         */
+        reverse: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * The `history` attribute contains the result of the `history` call.
+         */
+        history: {
+          type: Array,
+          value: []
+        },
+
+        /**
+         * The `start` attribute specifies the time token delimiting the start of time slice (exclusive) to pull messages from.
+         */
+        start: Number,
+
+        /**
+         * The `end` attribute specifies the time token delimiting the end of time slice (inclusive) to pull messages from.
+         */
+        end: Number
+
+      },
+
+      done: false,
+
+      ready: function() {
+        var self = this;
+
+        /* TODO: Improve this */
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+
+            self.done = true;
+          };
+
+          self.pubnub.history({
+            channel: self.channel,
+            count: self.count,
+            end: self.end,
+            reverse: self.reverse,
+            start: self.start,
+
+            callback: function(m) {
+              self.history = m;
+              self.fire('success', m);
+
+              ready();
+            },
+
+            error: function(m) {
+              self.fire('error', m);
+
+              ready();
+            }
+          });
+
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+
+        if (this.parentNode.done) {
+          onReady({ detail: this.parentNode.pubnub });
+        } else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
+      }
+    });
+  </script>
+</dom-module>

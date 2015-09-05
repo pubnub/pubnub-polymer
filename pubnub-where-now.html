@@ -1,0 +1,83 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`<pubnub-where-now></pubnub-where-now>` allows you to obtain information about the current list of channels to which a `uuid` is subscribed to.
+
+### Basic Usage:
+
+    <pubnub-element publish-key="demo" subscribe-key="demo">
+      <pubnub-where-now uuid="Alice" presence="{{presence}}"></pubnub-where-now>
+    </pubnub-element>
+
+    <h3>Alice's Presence</h3>
+    <template items="{{presence}}">
+      <p>{{item}}</p>
+    </template>
+
+@element pubnub-where-now
+@blurb Element allows you to obtain information about the current list of channels to which a `uuid` is subscribed to.
+@status alpha
+@homepage 
+-->
+<dom-module id="pubnub-where-now">
+  <script>
+    Polymer({
+      is: 'pubnub-where-now',
+
+      properties: {
+
+        /**************************************************
+        * TODO: Set to readOnly the necessary parameters  *
+        **************************************************/
+
+        presence: {
+          type: Array,
+          value: []
+        },
+
+        uuid: String
+
+      },
+
+      ready: function() {
+        var self = this;
+
+        /* TODO: Improve this */
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+
+            self.done = true;
+          };
+
+          self.pubnub.where_now({
+            uuid: self.uuid,
+
+            callback: function(m) {
+              self.presence = m.channels;
+              self.fire('presence', m);
+
+              ready();
+            },
+
+            error: function(m) {
+              self.fire('error', m);
+
+              ready();
+            }
+          });
+
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+
+        if (this.parentNode.done) {
+          onReady({ detail: this.parentNode.pubnub });
+        } else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
+      }
+    });
+  </script>
+</dom-module>
