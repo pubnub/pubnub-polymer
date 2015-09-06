@@ -1,0 +1,108 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+This element obtains information about the current state of a channel, 
+including a list of unique user-ids currently subscribed to the channel and the total occupancy count of the channel.
+
+### Basic Usage:
+    
+    <pubnub-element publish-key="demo" subscribe-key="demo">
+      <pubnub-here-now channel="channelName" presence="{{presence}}"></pubnub-here-now>
+    </pubnub-element>
+
+    <h3>channelName Presence</h3>
+    <template is="dom-repeat" items="{{presence}}">
+      <p>{{pres}}</p>
+    </template>
+
+@element pubnub-here-now
+@blurb Element obtains information about the current stat of a channel.
+@status alpha
+@homepage 
+-->
+<dom-module id="pubnub-here-now">
+  <script>
+    Polymer({
+      is: 'pubnub-here-now',
+
+      properties: {
+
+        /**************************************************
+        * TODO: Set to readOnly the necessary parameters  *
+        **************************************************/
+
+        /**
+         * The `presence` attribute contains the results of the `here-now` request.
+         */
+        presence: {
+          type: Array,
+          value: []
+        },
+
+        /**
+         * The `channel` attribute sets the channel name to return occupancy results. 
+         * If `channel` is not provided, `here_now` will return data for all channels.
+         */
+        channel: String,
+
+        /**
+         * The `state` attribute, when set to `true`, causes `here_now` to also get subscriber state information.
+         */
+        state: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * The `uuids` attribute, when set to `false`, disables the return of uuids.
+         */
+        uuids: {
+          type: Boolean,
+          value: true
+        }
+
+      },
+
+      done: false,
+
+      ready: function() {
+        var self = this;
+
+        /* TODO: Improve this */
+        var onReady = function(e) {
+          self.pubnub = e.detail;
+
+          var ready = function() {
+            self.fire('ready', self.pubnub);
+
+            self.done = true;
+          };
+
+          self.pubnub.here_now({
+            channel: self.channel,
+            state: self.state,
+            uuids: self.uuids,
+
+            error: function(m) {
+              self.fire('error', m);
+            },
+
+            callback: function(m) {
+              self.presence = m.uuids;
+              
+              self.fire('presence', m);
+            }
+          });
+
+          self.parentNode.removeEventListener('ready', onReady);
+        }
+
+        if (this.parentNode.done) {
+          onReady({ detail: this.parentNode.pubnub });
+        } else {
+          this.parentNode.addEventListener('ready', onReady);
+        }
+      }
+    });
+  </script>
+</dom-module>

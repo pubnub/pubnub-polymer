@@ -1,12 +1,13 @@
 {
     "name": "pubnub-element",
-    "version": "4.0.1",
+    "version": "4.1.0",
     "authors": [
     	"PubNub",
         "Larry Wu <lw7360@gmail.com>",
-        "Kevin Gleason <kaagleason@gmail.com>"
+        "Kevin Gleason <kaagleason@gmail.com>",
+        "Iegor Azuaga <dextrackmedia@gmail.com>"
     ],
-    "description": "A Custom element to connect PubNub data stream.",
+    "description": "A Polymer element to connect PubNub data stream.",
     "keywords": [
         "PubNub",
         "Polymer",
@@ -15,15 +16,14 @@
     "main": "pubnub-element.html",
     "license": "MIT",
     "homepage": "https://github.com/pubnub/pubnub-polymer",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
+    "ignore": [],
     "dependencies": {
-        "polymer": "Polymer/polymer",
-        "platform": "Polymer/platform"
+        "polymer": "Polymer/polymer#^1.1.0"
+    },
+    "devDependencies": {
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+        "web-component-tester": "*",
+        "test-fixture": "PolymerElements/test-fixture#^1.0.0"
     }
 }
