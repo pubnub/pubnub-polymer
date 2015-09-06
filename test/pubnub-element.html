@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <title>pubnub-element tests</title>
+  
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+  
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../pubnub-element.html">
+
+</head>
+<body>
+
+  <test-fixture id="pubnub-element">
+    <template>
+      <pubnub-element publish-key="pub-c-0236c7bb-a942-4ffd-93fe-c60380d89611" subscribe-key="sub-c-b969ffd2-2707-11e4-a114-02ee2ddab7fe">
+        <pubnub-subscribe channel="pubnubPolymerDemo" id="subscribe">
+          <pubnub-publish channel="pubnubPolymerDemo" id="publish"></pubnub-publish>
+        </pubnub-subscribe>
+
+        <pubnub-here-now channel="pubnubPolymerDemo" id="here"></pubnub-here-now>
+        <pubnub-where-now channel="pubnubPolymerDemo" id="where"></pubnub-where-now>
+      </pubnub-element>
+    </template>
+  </test-fixture>
+
+  <script type="text/javascript">
+
+    suite('<pubnub-element>', function() {
+
+      var el;
+
+      setup(function(done) {
+        el = fixture('pubnub-element');
+      });
+
+      test('connecting to pubnub data stream', function() {
+        assert.isTrue(el.done, 'Successfully connected!');
+      });
+
+      test('fetching connected users', function(done) {
+        el.children[1].addEventListener('presence', function(evt) {
+          assert.isAbove(evt.detail.uuids.length, 0, 'Users fetched!');
+
+          done();
+        });
+      });
+
+      test('fetching channels', function(done) {
+        el.children[2].addEventListener('presence', function(evt) {
+          assert.isAbove(evt.detail.channels.length, 0, 'Channels fetched!');
+
+          done();
+        });
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
