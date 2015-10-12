@@ -12,7 +12,7 @@ This element initializes the PubNub client. This element must be created before 
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub" hidden constructor="corePubNub" attributes="publish_key subscribe_key auth_key origin uuid cipher_key noleave keepalive secret_key ssl windwoing jsonp done pubnub">
+<dom-module id="core-pubnub">
   <script src="https://cdn.pubnub.com/pubnub.js"></script>
 
   <script>
@@ -222,7 +222,7 @@ This element initializes the PubNub client. This element must be created before 
       },
     });
   </script>
-</polymer-element>
+</dom-module>
 
 <!--
 This element causes the client to create an open TCP socket to the PubNub Real-Time Network and begin listening for messages on a specified `channel`. 
@@ -252,7 +252,7 @@ Place it inside of a `<core-pubnub>` element.
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-subscribe" hidden attributes="channel timetoken windowing heartbeat state messages presence subscribe pubnub done">
+<dom-module id="core-pubnub-subscribe">
   <script>
     Polymer({
      
@@ -474,7 +474,7 @@ Place it inside of a `<core-pubnub>` element.
       }
     });
   </script>
-</polymer-element>
+</dom-module>
 
 <!--
 This element is used to send messages to all subscribers of a channel. A successfully published message is replicated across the PubNub real-Time Network and sent simultaneously to all subscribed clients on a `channel`. 
@@ -499,7 +499,7 @@ Place it inside of a `<core-pubnub>` element.
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-publish" hidden attributes="channel message publish_key publish pubnub done">
+<dom-module id="core-pubnub-publish">
   <script>
     Polymer({
       
@@ -604,7 +604,7 @@ Place it inside of a `<core-pubnub>` element.
      },
     });
   </script>
-</polymer-element>
+</dom-module>
 
 <!--
 This element fetches historical messages of a channel.
@@ -629,7 +629,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-history" hidden attributes="channel count end reverse start history pubnub done">
+<dom-module is='core-publish-history'>
   <script>
     Polymer({
       
@@ -764,7 +764,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
       }
     });
   </script>
-</polymer-element>
+</dom-module>
 
 <!--
 This element obtains information about the current state of a channel, including a list of unique user-ids currently subscribed to the channel and the total occupancy count of the channel.
@@ -787,7 +787,7 @@ This element obtains information about the current state of a channel, including
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-here-now" hidden attributes="channel state uuids presence pubnub done">
+<dom-module is="core-pubnub-here-now">
   <script>
     Polymer({
       
@@ -894,7 +894,7 @@ This element obtains information about the current state of a channel, including
       }
     });
   </script>
-</polymer-element>
+</dom-module>
 
 <!--
 This element allows you to obtain information about the current list of channels to which a `uuid` is subscribed to.
@@ -917,7 +917,7 @@ This element allows you to obtain information about the current list of channels
 @status alpha
 @homepage 
 -->
-<polymer-element name="core-pubnub-where-now" hidden attributes="uuid presence pubnub done">
+<dom-module is='core-pubnub-where-now'>
   <script>
     Polymer({
       
@@ -993,9 +993,9 @@ This element allows you to obtain information about the current list of channels
       }
     });
   </script>
-</polymer-element>
+</dom-module>
 
-<polymer-element name="core-pubnub-replay" hidden attributes="source destination end limit reverse start stop pubnub done">
+<dom-module id="core-pubnub-replay">
   <script>
     Polymer({
       
@@ -1035,4 +1035,4 @@ This element allows you to obtain information about the current list of channels
       }
     });
   </script>
-</polymer-element>
+</dom-module>
