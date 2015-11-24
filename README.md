@@ -13,6 +13,14 @@ The new Polymer 1.0 is *not* compatible with Polymer 0.5.x:
 - **pubnub-element 4.0** and above is compatible with Polymer 1.0
 - **pubnub-element 3.x** is for Polymer 0.5.x
 
+## Installing with Bower
+
+To install the latest:
+
+`$ bower install --save pubnub-element`
+
+User *semver* to install a specific version.
+
 ## Demo
 
 Checkout the [Demo](http://pubnub.github.io/pubnub-polymer/components/pubnub-element/demo.html)!
