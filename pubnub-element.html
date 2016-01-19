@@ -371,11 +371,11 @@ Place it inside of a `<core-pubnub>` element.
     },
     messages: {
       type : Array,
-      value: []
+      value: function(){return []}
     },
     presence: {
       type : Array,
-      value: []
+      value: function(){return []}
     },
     timetoken: Number,
     windowing: {
@@ -564,20 +564,8 @@ Place it inside of a `<core-pubnub>` element.
             self.fire('ready', self.pubnub);
             self.done = true;
           };
-          self.pubnub.publish({
-            channel: self.channel,
-            message: self.message,
-            publish_key: self.publish_key,
-            callback: function(m) {
-              self.fire('success', m);
-              ready();
-            },
-            error: function(m) {
-              self.fire('error', m);
-              ready();
-            }
-          });
           self.parentNode.removeEventListener('ready', onReady);
+          ready();
         }
         if (this.parentNode.done) {
           onReady({detail: this.parentNode.pubnub});
@@ -722,7 +710,7 @@ PubNub Storage/Playback Service provides real-time access to an unlimited histor
       start: Number, 
       history: {
         type : Array,
-        value: []
+        value: function(){return []}
       },
     },
 
@@ -845,7 +833,7 @@ This element obtains information about the current state of a channel, including
       properties: {
       presence: {
         type : Array,
-        value: [] 
+        value: function(){return []} 
       },
       channel: String,
       state: {
@@ -956,7 +944,7 @@ This element allows you to obtain information about the current list of channels
     properties: {
       presence: {
         type : Array,
-        value: []
+        value: function(){return []}
       },
       uuid: String
     },     
