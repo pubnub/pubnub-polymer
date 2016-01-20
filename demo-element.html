@@ -4,22 +4,26 @@
 
 <dom-module id="list-data">
   <template>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <div class="panel panel-default">
       <div class="panel-heading">{{heading}}</div>
 
       <ul class="list-group" style="max-height: 500px; overflow: auto;">
-      <template repeat="{{ datum in data }}">
-        <li class="list-group-item">{{datum}}</li>
-      </template>
+        <template is="dom-repeat" items="{{data }}">
+          <li class="list-group-item">{{item}}</li>
+        </template>
       </ul>
     </div>
   </template>
   <script>
-Polymer('list-data', {
-  ready: function() {
-    this.data = [];
-  }
-});
+    Polymer({
+      is: "list-data",
+      properties: {
+        data: {
+          type: Array,
+          value: function(){return []}
+        }
+      }
+    });
   </script>
 </dom-module>

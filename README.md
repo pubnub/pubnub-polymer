@@ -33,3 +33,6 @@ Checkout the [Demo](http://pubnub.github.io/pubnub-polymer/components/pubnub-ele
 - [Web App] (http://pubnub.github.io/paper-chat)
 - [Source Code] (http://github.com/pubnub/paper-chat)
 
+### Deploy
+
+Use polymer `polyserve` to deploy.
